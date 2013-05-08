@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Logger.cs" />
     <Compile Include="CustomScreenCapture.cs" />
     <Compile Include="Forms\About.cs">
       <SubType>Form</SubType>

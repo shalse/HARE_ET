@@ -14,7 +14,8 @@ namespace ET_Project_UI
 {
     public partial class EyeTrackerForm : Form
     {
-
+        //Setup a logger
+        Logger debugLog = new Logger("Log.txt");
         //declarations
         ETController ETDevice;
         ETController.AccuracyStruct m_AccuracyData;
@@ -255,6 +256,7 @@ namespace ET_Project_UI
 
         private void button1_Click(object sender, EventArgs e)
         {
+            debugLog.Write("Video recording Started");
             //Start the AVI recording
             Thread aviThread = new Thread(new ThreadStart(screenVideo.CaptureVideo));
             aviThread.Start();
