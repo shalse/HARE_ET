@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using AviFile;
+using System.Threading;
 
 namespace ET_Project_UI
 {
@@ -246,6 +248,24 @@ namespace ET_Project_UI
         {
             ETDevice.iV_SetTrackingMonitorCallback(m_TrackingMonitorCallback);
 
+        }
+
+        private CustomScreenCapture screenVideo = new CustomScreenCapture();
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            //Start the AVI recording
+            Thread aviThread = new Thread(new ThreadStart(screenVideo.CaptureVideo));
+            aviThread.Start();
+            
+            //testing
+            while (!aviThread.IsAlive);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            screenVideo.stopRecording();
         }
     }
     
