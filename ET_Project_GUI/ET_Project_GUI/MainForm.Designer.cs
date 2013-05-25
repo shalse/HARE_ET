@@ -13,6 +13,10 @@
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
+            //call this before killing program
+            onProgramClose();
+
+
             if (disposing && (components != null))
             {
                 components.Dispose();
@@ -77,6 +81,7 @@
             // 
             this.Obs_TrackingMonitor_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
             this.Obs_TrackingMonitor_Button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Obs_TrackingMonitor_Button.Enabled = false;
             this.Obs_TrackingMonitor_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
             this.Obs_TrackingMonitor_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Obs_TrackingMonitor_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -93,6 +98,7 @@
             // 
             this.Obs_EyeImageMonitor_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
             this.Obs_EyeImageMonitor_Button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Obs_EyeImageMonitor_Button.Enabled = false;
             this.Obs_EyeImageMonitor_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
             this.Obs_EyeImageMonitor_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Obs_EyeImageMonitor_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));

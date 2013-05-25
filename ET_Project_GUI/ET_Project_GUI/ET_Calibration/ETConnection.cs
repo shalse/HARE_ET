@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 
 namespace ET_Project_GUI.Network
 {
@@ -26,10 +27,15 @@ namespace ET_Project_GUI.Network
                 if (ret == 123) Console.WriteLine("iV_Connect error: failed to bind sockets");
                 return ret;
             }
-            catch (Exception exc)
+            catch (Exception ex)
             {
-                // TODO Create an alert message box
-                Console.WriteLine("Exception during iV_Connect: " + exc.Message);
+                DialogResult messagebox = MessageBox.Show("Could not connect to SMI Eye Tracker\n\n"+ex.Message, "Error Connecting to Eye Tracker Server",
+                MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (messagebox == DialogResult.Retry)
+                {
+                    connect(etController);
+                }
+                Console.WriteLine("Exception during iV_Connect: " + ex.Message);
                 return 0;
             }
 
