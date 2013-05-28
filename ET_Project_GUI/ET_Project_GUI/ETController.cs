@@ -12,9 +12,6 @@ namespace ET_Project_GUI
         [DllImport("iViewXAPI.dll", EntryPoint = "iV_Connect")]
         private static extern int Unmanaged_Connect(StringBuilder sendIPAddress, int sendPort, StringBuilder recvIPAddress, int receivePort);
 
-        [DllImport("iViewXAPI.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "iV_SetSampleCallback")]
-        private static extern void Unmanaged_SetSampleCallback(MulticastDelegate sampleCallbackFunction);
-
         [DllImport("iViewXAPI.dll", EntryPoint = "iV_Calibrate")]
         private static extern int Unmanaged_Calibrate();
 
@@ -23,12 +20,6 @@ namespace ET_Project_GUI
 
         [DllImport("iViewXAPI.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "iV_SetTrackingMonitorCallback")]
         private static extern void Unmanaged_SetTrackingMonitorCallback(MulticastDelegate trackingMonitorCallbackFunction);
-
-        [DllImport("iViewXAPI.dll", EntryPoint = "iV_ShowEyeImageMonitor")]
-        private static extern int Unmanaged_ShowEyeImageMonitor();
-
-        [DllImport("iViewXAPI.dll", CallingConvention = CallingConvention.StdCall, EntryPoint = "iV_SetEyeImageCallback")]
-        private static extern void Unmanaged_SetEyeImageCallback(MulticastDelegate eyeImageCallbackFunction);
 
         [DllImport("iViewXAPI.dll", EntryPoint = "iV_GetAccuracy")]
         private static extern int Unmanaged_GetAccuracy(ref AccuracyStruct accuracyData, int visualization);
@@ -48,11 +39,7 @@ namespace ET_Project_GUI
         {
             return Unmanaged_Connect(sendIP, sendPort, receiveIP, receivePort);
         }
-        //samples
-        public void iV_SetSampleCallback(MulticastDelegate sampleCallback)
-        {
-            Unmanaged_SetSampleCallback(sampleCallback);
-        }
+
         //Calibrate
         public int iV_Calibrate()
         {
@@ -78,16 +65,6 @@ namespace ET_Project_GUI
         public void iV_SetTrackingMonitorCallback(MulticastDelegate trackingMonitorCallback)
         {
             Unmanaged_SetTrackingMonitorCallback(trackingMonitorCallback);
-        }
-        //used for showing video of your eyes
-        public int iV_ShowEyeImageMonitor()
-        {
-            return Unmanaged_ShowEyeImageMonitor();
-        }
-        //callback for showing video of your eyes
-        public void iV_SetEyeImageCallback(MulticastDelegate eyeImageCallback)
-        {
-            Unmanaged_SetEyeImageCallback(eyeImageCallback);
         }
         //Setup Calibrate
         public int iV_SetupCalibration(ref CalibrationStruct calibrationData)
@@ -136,22 +113,6 @@ namespace ET_Project_GUI
             public int imageWidth;
             public int imageSize;
             public IntPtr imageBuffer;
-        };
-        public struct EyeDataStruct
-        {
-            public double gazeX;
-            public double gazeY;
-            public double diam;
-            public double eyePositionX;
-            public double eyePositionY;
-            public double eyePositionZ;
-        };
-        public struct SampleStruct
-        {
-            public Int64 timestamp;
-            public EyeDataStruct leftEye;
-            public EyeDataStruct rightEye;
-            public int planeNumber;
         };
     }
 }
