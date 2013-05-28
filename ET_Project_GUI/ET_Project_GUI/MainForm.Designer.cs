@@ -222,6 +222,7 @@
             // 
             this.DataRec_SaveCalAcc_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
             this.DataRec_SaveCalAcc_Button.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DataRec_SaveCalAcc_Button.Enabled = false;
             this.DataRec_SaveCalAcc_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
             this.DataRec_SaveCalAcc_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DataRec_SaveCalAcc_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -519,6 +520,7 @@
             this.calibrationAccuracyPictureBox.Location = new System.Drawing.Point(245, 36);
             this.calibrationAccuracyPictureBox.Name = "calibrationAccuracyPictureBox";
             this.calibrationAccuracyPictureBox.Size = new System.Drawing.Size(180, 137);
+            this.calibrationAccuracyPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.calibrationAccuracyPictureBox.TabIndex = 8;
             this.calibrationAccuracyPictureBox.TabStop = false;
             // 
