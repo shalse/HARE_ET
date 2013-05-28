@@ -10,15 +10,20 @@ namespace ET_Project_GUI.ET_Calibration
 {
     class ETValidate
     {
-        private delegate void DisplayAccuracyImage();
-
-        ETController.ImageStruct m_AccuracyImageData;
+        public ETController.ImageStruct m_AccuracyImageData;
         private PictureBox pictureBoxReference;
+        private ETController ETDevice;
 
-        public int validate(ETController ETDevice, PictureBox inPicBox)
+        public ETValidate(ETController inETDevice, PictureBox inPicBox)
+        {
+           
+            ETDevice = inETDevice;
+            pictureBoxReference = inPicBox;  
+        }
+        public int validate()
         {
             int ret = 0;
-            pictureBoxReference = inPicBox;
+            
             try
             {
                 ret = ETDevice.iV_Validate();
@@ -36,12 +41,12 @@ namespace ET_Project_GUI.ET_Calibration
             ret = ETDevice.iV_GetAccuracyImage(ref m_AccuracyImageData);
             if (ret == 1)
             {
+                Console.WriteLine("iV_GetAccuracyImage: iV_GetAccuracyImage executed successfully");
+
                 ShowAccuracyImage(m_AccuracyImageData);
             }
-            else
-            {
-                Console.WriteLine("Error with Getting Accuracy Image");
-            }
+            else Console.WriteLine("iV_GetAccuracyImage: Error with iV_GetAccuracyImage");
+
             return ret;
         }
         private void ShowAccuracyImage(ETController.ImageStruct image)
@@ -55,15 +60,7 @@ namespace ET_Project_GUI.ET_Calibration
         {
             try
             {
-                if (pictureBoxReference.InvokeRequired)
-                {
-                    // create grayscale color table
-                    pictureBoxReference.BeginInvoke((DisplayAccuracyImage)delegate
-                    {
-                        pictureBoxReference.Image = AccuracyImageBmp;
-                    });
-                }
-                //AccuracyImage.Image = AccuracyImageBmp;
+                pictureBoxReference.Image = AccuracyImageBmp;
             }
             catch (System.Exception exc)
             {
