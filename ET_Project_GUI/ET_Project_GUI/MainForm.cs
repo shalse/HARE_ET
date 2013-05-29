@@ -55,11 +55,15 @@ namespace ET_Project_GUI
             dataSampleRateComboBox.SelectedIndex = 2;
             
             //start the server to listen for incoming connections
-            Thread serverListener = new Thread(new ThreadStart(startServerListener));
-            serverListener.Name = "Server Listener Thread";
-            serverListener.Start();
+            //TODO Enable server listener
+            //Thread serverListener = new Thread(new ThreadStart(startServerListener));
+            //serverListener.Name = "Server Listener Thread";
+            //serverListener.Start();
+
+            Thread serverListener2 = new Thread(new ThreadStart(startServerListener2));
+            serverListener2.Name = "Server Listener Thread";
+            serverListener2.Start();
             
-           
         }
         private void onProgramClose()
         {
@@ -367,6 +371,9 @@ namespace ET_Project_GUI
                 {
                     while (serverListenerEnabled)
                     {
+                        //****
+                        //send screen shots
+                        //****
                         using (var graphics = Graphics.FromImage(bitmap))
                         {
                             graphics.CopyFromScreen(bounds.X, 0, bounds.Y, 0, bounds.Size);
@@ -436,7 +443,44 @@ namespace ET_Project_GUI
 //*******************************************
 //      Testing area
 //*******************************************
+        private List<ClientHandler> clientList;
+        private void startServerListener2()
+        {
+            TcpListener serverSocket = new TcpListener(IPAddress.Parse("75.102.73.216"),10000);
+            TcpClient clientSocket = default(TcpClient);
+            clientList = new List<ClientHandler>();
 
+            int counter = 0;
+
+            serverSocket.Start();
+            Console.WriteLine(" >> " + "Server Started");
+
+            counter = 0;
+            while (true)
+            {
+                counter += 1;
+                clientSocket = serverSocket.AcceptTcpClient();
+                Console.WriteLine(" >> " + "Client No:" + Convert.ToString(counter) + " started!");
+                ClientHandler client = new ClientHandler();
+                clientList.Add(client);
+                client.startClient(clientSocket, Convert.ToString(counter));
+            }
+
+            clientSocket.Close();
+            serverSocket.Stop();
+            Console.WriteLine(" >> " + "exit");
+            Console.ReadLine();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ClientHandler temp = clientList[0];
+            Thread clientThread = new Thread(new ThreadStart(temp.doChat));
+            clientThread.Name = "Client " + 0 + " Thread";
+            clientThread.Start();
+
+            
+        }
  
     }
 }

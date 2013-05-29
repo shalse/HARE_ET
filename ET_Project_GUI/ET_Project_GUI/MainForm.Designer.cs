@@ -72,6 +72,8 @@
             this.Cal_Connect_Button = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
+            this.messageInput = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.observationMonitorPictureBox)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.calibrationAccuracyPictureBox)).BeginInit();
@@ -667,12 +669,31 @@
             this.lineShape1.Y1 = 186;
             this.lineShape1.Y2 = 186;
             // 
+            // messageInput
+            // 
+            this.messageInput.Location = new System.Drawing.Point(519, 494);
+            this.messageInput.Name = "messageInput";
+            this.messageInput.Size = new System.Drawing.Size(100, 20);
+            this.messageInput.TabIndex = 25;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(625, 491);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 26;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(129)))), ((int)(((byte)(189)))));
             this.ClientSize = new System.Drawing.Size(876, 527);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.messageInput);
             this.Controls.Add(this.dataSampleRateComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.DataRec_StopDataRec_Button);
@@ -753,6 +774,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox dataSampleRateComboBox;
+        private System.Windows.Forms.TextBox messageInput;
+        private System.Windows.Forms.Button button1;
 
 
     }

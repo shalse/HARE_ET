@@ -55,11 +55,13 @@
     <Compile Include="Data\ETSampleManager.cs" />
     <Compile Include="Data\ExampleDataUpdateClass.cs" />
     <Compile Include="ET_Calibration\ETEyeImageMonitor.cs" />
+    <Compile Include="Network\ClientHandler.cs" />
+    <Compile Include="Network\MessageFormater.cs" />
     <Compile Include="Testing\RandomPointGenerator.cs" />
     <Compile Include="VideoRecording\CustomScreenCapture.cs" />
     <Compile Include="ETController.cs" />
     <Compile Include="ET_Calibration\ETTrackingMonitor.cs" />
-    <Compile Include="ET_Calibration\ETCalibrate.cs" />
+    <Compile Include="VideoRecording\ETCalibrate.cs" />
     <Compile Include="ET_Calibration\ETValidate.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
