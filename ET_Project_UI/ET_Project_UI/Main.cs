@@ -9,11 +9,15 @@ using System.Windows.Forms;
 using System.Drawing.Imaging;
 using AviFile;
 using System.Threading;
+using System.Net.Sockets;
+using System.Net;
+using System.IO;
 
 namespace ET_Project_UI
 {
     public partial class EyeTrackerForm : Form
     {
+       
         //Setup a logger
         Logger debugLog = new Logger("Log.txt");
         //declarations
@@ -43,6 +47,24 @@ namespace ET_Project_UI
             m_CalibrationCallback = new CalibrationCallback(CalibrationCallbackFunction);
             m_TrackingMonitorCallback = new GetTrackingMonitorCallback(GetTrackingMonitorCallbackFunction);
         }
+
+        public string getLocalIPAddress()
+        {
+            IPHostEntry host;
+            string localIP = "";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                }
+            }
+            return localIP;
+        }
+        
+        
+        
         //The following methods are used as the button handlers 
         
        
@@ -254,20 +276,152 @@ namespace ET_Project_UI
         private CustomScreenCapture screenVideo = new CustomScreenCapture();
 
 
-        private void button1_Click(object sender, EventArgs e)
+        private void startVidRec_Click(object sender, EventArgs e)
         {
             debugLog.Write("Video recording Started");
             //Start the AVI recording
             Thread aviThread = new Thread(new ThreadStart(screenVideo.CaptureVideo));
+      
             aviThread.Start();
             
             //testing
             while (!aviThread.IsAlive);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void stopVidRec_Click(object sender, EventArgs e)
         {
             screenVideo.stopRecording();
+        }
+
+        private void startServerButton_Click(object sender, EventArgs e)
+        {
+            Thread serverListener = new Thread(new ThreadStart(startServerListener));
+            //serverListener.Name = "Server Listener Thread";
+            serverListener.Start();
+        }
+
+        private void startServerListener()
+        {
+
+            using (var socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            {
+                socket.Bind(new IPEndPoint(IPAddress.Parse("75.102.73.129"), 23456));
+                socket.Listen(100);
+                while (true)
+                {
+                    using (var client = socket.Accept())
+                    {
+                        var bounds = Screen.PrimaryScreen.Bounds;
+                        var bitmap = new Bitmap(bounds.Width, bounds.Height);
+                        try
+                        {
+                            while (true)
+                            {
+                                using (var graphics = Graphics.FromImage(bitmap))
+                                {
+                                    graphics.CopyFromScreen(bounds.X, 0, bounds.Y, 0, bounds.Size);
+                                }
+                                //bitmap = new Bitmap(bitmap, new Size((int)(bounds.Width * 0.25), (int)(bounds.Height * 0.25)));
+
+
+                               // bitmap.GetThumbnailImage(bounds.Width * 0.25, bounds.Height * 0.25);
+                                byte[] imageData;
+                                using (var stream = new MemoryStream())
+                                {
+                                    
+                                    bitmap.Save(stream, ImageFormat.Png);
+                                
+                                    imageData = stream.ToArray();
+                                }
+                                var lengthData = BitConverter.GetBytes(imageData.Length);
+                                if (client.Send(lengthData) < lengthData.Length) break;
+                                if (client.Send(imageData) < imageData.Length) break;
+                                Thread.Sleep(1000);
+                            }
+                        }
+                        catch
+                        {
+                            break;
+                        }
+                    }
+                }
+            }
+
+
+            //Socket sck;
+            //Console.WriteLine("Server Started...");
+            //sck = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            //sck.Bind(new IPEndPoint(IPAddress.Parse("75.102.73.129"), 7777));
+
+            //while (true)
+            //{
+            //    sck.Listen(100);
+            //    Socket accepted = sck.Accept();
+            //    byte[] tempImage = new byte[1024];
+            //    int cnt = 0;
+                
+            //    while (accepted.Connected)
+            //    {
+            //        //works!!!
+            //        //byte[] data = new byte[4];
+            //        //data = Encoding.UTF8.GetBytes("Sup pup "+cnt);
+            //        //cnt++;
+            //        //sendData(accepted, data);
+            //   // if (accepted.Connected)
+            //   // {
+            //        try
+            //        {
+            //            if (cnt == 0)
+            //            {
+            //                byte[] bmpBytes = ReadImageFile("test.jpg");
+            //                Console.WriteLine("Sending Data");
+            //                sendData(accepted, bmpBytes);
+            //            }
+            //            cnt++;
+            //        }
+            //        catch (SocketException ex)
+            //        {
+            //            Console.WriteLine("Something went wrong -> " + ex);
+            //        }
+            //    }
+            //    if (!accepted.Connected)
+            //    {
+            //        Console.WriteLine("Client has disconnected");
+            //    }
+            //}
+        }
+        private void sendData(Socket s, byte[] data)
+        {
+            int total = 0;
+            int size = data.Length;
+            int dataLeft = size;
+            int dataSent;
+
+            //this sends the data in a buffer (the first 4 bytes are always the data size)
+            byte[] dataSize = new byte[4];
+            dataSize = BitConverter.GetBytes(data.Length);
+            dataSent = s.Send(dataSize);
+            Console.WriteLine("DataSize is = "+BitConverter.ToInt32(dataSize,0));
+           
+            //Send the actual data 
+            while (total < size)
+            {
+                dataSent = s.Send(data, total, dataLeft, SocketFlags.None);
+                total += dataSent;
+                dataLeft -= dataSent;
+            }
+        }
+        private static byte[] ReadImageFile(String img)
+        {
+            FileInfo fileInfo = new FileInfo(img);
+            byte[] buf = new byte[fileInfo.Length];
+            FileStream fs = new FileStream(img, FileMode.Open, FileAccess.Read);
+            fs.Read(buf, 0, buf.Length);
+            fs.Close();
+            //fileInfo.Delete ();
+            GC.ReRegisterForFinalize(fileInfo);
+            GC.ReRegisterForFinalize(fs);
+            return buf;
         }
     }
     

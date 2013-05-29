@@ -1,0 +1,9 @@
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\bin\Debug\ImageRecieverOverSocket.exe
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\bin\Debug\ImageRecieverOverSocket.pdb
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\obj\x86\Debug\ImageRecieverOverSocket.Properties.Resources.resources
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\obj\x86\Debug\ImageRecieverOverSocket.exe
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\obj\x86\Debug\ImageRecieverOverSocket.pdb
+C:\shalsecode\C#\ET_Project_UI\ImageRecieverOverSocket\obj\x86\Debug\ImageRecieverOverSocket.ClientForm.resources
