@@ -56,7 +56,8 @@
     <Compile Include="Data\ExampleDataUpdateClass.cs" />
     <Compile Include="ET_Calibration\ETEyeImageMonitor.cs" />
     <Compile Include="Network\ClientHandler.cs" />
-    <Compile Include="Network\MessageFormater.cs" />
+    <Compile Include="Network\Old-MessageFormater.cs" />
+    <Compile Include="Network\Server.cs" />
     <Compile Include="Testing\RandomPointGenerator.cs" />
     <Compile Include="VideoRecording\CustomScreenCapture.cs" />
     <Compile Include="ETController.cs" />

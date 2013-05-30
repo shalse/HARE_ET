@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Windows.Forms;
 using System.Text;
 using System.Threading;
+using System.Net;
 
 namespace TCPClientTester
 {
@@ -16,12 +17,30 @@ namespace TCPClientTester
         }
         private void Main_Load(object sender, EventArgs e)
         {
-            
+            IPHostEntry host;
+            string localIP = "";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIP = ip.ToString();
+                }
+            }
+            ipInputBox.Text = localIP;
         }
+        TcpClient client;
+        Thread startConn;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            TcpClient client;
+            startConn = new Thread(new ThreadStart(startThread));
+            startConn.Name = "Conn thread";
+            startConn.Start();
+    
+        }
+        private void startThread()
+        {
             Console.WriteLine("Attempting connection");
 
             client = new TcpClient();
@@ -29,35 +48,25 @@ namespace TCPClientTester
 
             byte[] recievedBytes = new byte[1000];
 
-            
-             NetworkStream networkStream = client.GetStream();
-          
-            while(true)
+
+            NetworkStream networkStream = client.GetStream();
+
+            while (client.Connected)
             {
                 try
                 {
-                   // networkStream.Read(recievedBytes, 0, recievedBytes.Length);
-                   // Console.WriteLine("Recieved: " + Encoding.ASCII.GetString(recievedBytes));
-                    //networkStream.Flush();
-
-
-                    //decodeMessage(recievedBytes);
-
-                    //networkStream.Read(recievedBytes, 0, (int)client.ReceiveBufferSize);
-                    //Console.WriteLine("Recieved: " + Encoding.ASCII.GetString(recievedBytes));
-                    //networkStream.Flush();
-
-                    byte[] sendMessage = Encoding.ASCII.GetBytes("!MAZ0018This is my message");
+                    byte[] msgType = Encoding.ASCII.GetBytes("!TES");
+                    string msg = "!TES";
+                    for (int count = 0; count < 25; count++)
+                    {
+                        msg += count.ToString();
+                    }
+                    byte[] sendMessage = Encoding.ASCII.GetBytes(msg);
                     networkStream.Write(sendMessage, 0, sendMessage.Length);
-                    Console.WriteLine("message sent");
-                    //read message from server
-                    Thread.Sleep(1000);
                     
-                    //output.Read(recievedMessage, 0, client.ReceiveBufferSize);
-                    //output.Flush();
+                    Console.WriteLine("message sent"+msg);
 
-                   // message = reader.ReadString();
-                  //  Console.WriteLine(">>Message recieved >> :" + message);
+                    Thread.Sleep(1000);
                 }
                 catch (Exception ex)
                 {
@@ -69,26 +78,16 @@ namespace TCPClientTester
             Console.WriteLine("Exit");
             client.Close();
         }
-
-        private void decodeMessage(byte[] recievedBytes)
+       
+        private void onClose()
         {
-            string fullMessage = Encoding.ASCII.GetString(recievedBytes);
-            
-            string origin = fullMessage.Substring(0, 4);
-            if (origin.Substring(0, 1) == "!")
-            {
-                int messageSize = int.Parse(fullMessage.Substring(4, 4));
-                string message = fullMessage.Substring(8, messageSize);
+            NetworkStream networkStream = client.GetStream();
+            byte[] sendMessage = Encoding.ASCII.GetBytes("!KIL");
+            networkStream.Write(sendMessage, 0, sendMessage.Length);
+            Console.WriteLine("Killing conn");
+            client.Close();
 
-
-                Console.WriteLine("Origin = " + origin);
-                Console.WriteLine("messageSize = " + messageSize);
-                Console.WriteLine("message = " + message);
-            }
-            else
-            {
-                Console.WriteLine("The Data has been corrupted");
-            }
+            startConn.Abort();
         }
     }
 }

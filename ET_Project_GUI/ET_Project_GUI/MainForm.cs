@@ -27,7 +27,7 @@ namespace ET_Project_GUI
         private CustomScreenCapture screenVideo;
         private ETTrackingMonitor trackingMonitor; 
         private bool updatePoints;
-        private bool serverListenerEnabled;
+        private Thread serverThread;
         private ETSampleManager dataPoints;
 
         
@@ -42,7 +42,7 @@ namespace ET_Project_GUI
             calibrateET = new ETCalibrate();
             screenVideo = new CustomScreenCapture();
             updatePoints = true;
-            serverListenerEnabled = true;
+            
             dataPoints = new ETSampleManager(ETDevice);
             dataPoints.startDataFeedback();
 
@@ -55,16 +55,9 @@ namespace ET_Project_GUI
             dataSampleRateComboBox.SelectedIndex = 2;
             
             //start the server to listen for incoming connections
-            //TODO Enable server listener
-            //Thread serverListener = new Thread(new ThreadStart(startServerListener));
-            //serverListener.Name = "Server Listener Thread";
-            //serverListener.Start();
-
-            Thread serverListener2 = new Thread(new ThreadStart(startServerListener2));
-            serverListener2.Name = "Server Listener Thread";
-            serverListener2.Start();
-            
+            startMessageServer();
         }
+
         private void onProgramClose()
         {
             //stop recoding the avi video on close (prevents corruption of avi file)
@@ -72,8 +65,9 @@ namespace ET_Project_GUI
 
             //kill the update point thread
             updatePoints = false;
-            //kill the socket listener
-            serverListenerEnabled = false;
+
+            //kill message server
+            serverThread.Abort();
 
         }
 
@@ -91,8 +85,6 @@ namespace ET_Project_GUI
 
             // TODO "Future release" launch SMI Eye tracker server automatically
 
-            //disable the remote view button as this will be dedicated as a "subject computer"
-            Obs_RemoteView_Button.Enabled = false;
 
             ETConnection connectToEyeTracker = new ETConnection();
             int res =  connectToEyeTracker.connect(ETDevice);
@@ -277,18 +269,6 @@ namespace ET_Project_GUI
             }
             
         }
-
-        // button click handler used to load the remote view. Note that this option will become disabled if you are connected to the eye tracker. The purpose
-        private void Obs_RemoteView_Button_Click(object sender, EventArgs e)
-        {
-            //disable all calibration buttons as this will be the "experimenters computer"
-            Cal_Connect_Button.Enabled = false;
-            Cal_Calibrate_Button.Enabled = false;
-            Cal_Validate_Button.Enabled = false;
-            Cal_CheckAccuracy_Button.Enabled = false;
-
-            // TODO "SHANE" add logic for loading remote view
-        }
         
 //*******************************************
 //      APPLICATIONS SECTION
@@ -343,65 +323,8 @@ namespace ET_Project_GUI
 //*******************************************
 //      SUPPORT FUNCTIONS SECTION
 //******************************************
-        //used to start the TCP server for sending et data to the applications and recieveing data from the games 
-        private void startServerListener()
-        {
-            //TODO "SHANE" clean this mess vv up
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-            IPHostEntry host;
-            string localIP = "";
-            host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (IPAddress ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    localIP = ip.ToString();
-                }
-            }
-            socket.Bind(new IPEndPoint(IPAddress.Parse(localIP), 10000));
-            //TODO "SHANE" code/decode messages
-            Console.WriteLine("Local Address: "+localIP);
-            socket.Listen(100);
-            while (serverListenerEnabled)
-            {
-                Socket client = socket.Accept();
-                var bounds = Screen.PrimaryScreen.Bounds;
-                var bitmap = new Bitmap(bounds.Width, bounds.Height);
-                try
-                {
-                    while (serverListenerEnabled)
-                    {
-                        //****
-                        //send screen shots
-                        //****
-                        using (var graphics = Graphics.FromImage(bitmap))
-                        {
-                            graphics.CopyFromScreen(bounds.X, 0, bounds.Y, 0, bounds.Size);
-                        }
-                        //bitmap = new Bitmap(bitmap, new Size((int)(bounds.Width * 0.25), (int)(bounds.Height * 0.25)));
-
-
-                        // bitmap.GetThumbnailImage(bounds.Width * 0.25, bounds.Height * 0.25);
-                        byte[] imageData;
-                        using (var stream = new MemoryStream())
-                        {
-
-                            bitmap.Save(stream, ImageFormat.Png);
-
-                            imageData = stream.ToArray();
-                        }
-                        var lengthData = BitConverter.GetBytes(imageData.Length);
-                        if (client.Send(lengthData) < lengthData.Length) break;
-                        if (client.Send(imageData) < imageData.Length) break;
-                        Thread.Sleep(1000);
-                    }
-                }
-                catch
-                {
-                    break;
-                }
-            }
-        }
+        
+       
         //used when any of the calibration data has changed (from the combo boxes)
         private void callibrationDataChanged(object sender, EventArgs e)
         {
@@ -443,43 +366,33 @@ namespace ET_Project_GUI
 //*******************************************
 //      Testing area
 //*******************************************
-        private List<ClientHandler> clientList;
-        private void startServerListener2()
+        //used to start the TCP server for sending et data to the applications and recieveing data from the games 
+        private void startMessageServer()
         {
-            TcpListener serverSocket = new TcpListener(IPAddress.Parse("75.102.73.216"),10000);
-            TcpClient clientSocket = default(TcpClient);
-            clientList = new List<ClientHandler>();
+            Server svr = new Server();
+            svr.newMessageToSend = messageRecieved;
 
-            int counter = 0;
-
-            serverSocket.Start();
-            Console.WriteLine(" >> " + "Server Started");
-
-            counter = 0;
-            while (true)
+            serverThread = new Thread(new ThreadStart(svr.startServer));
+            serverThread.Name = "SVR Thread";
+            serverThread.Start();
+        }
+        public void messageRecieved(string message)
+        {
+            //TODO do something with the message recieved from socket
+            //[game type][message length][message data]
+            if (message.Length >= 8)
             {
-                counter += 1;
-                clientSocket = serverSocket.AcceptTcpClient();
-                Console.WriteLine(" >> " + "Client No:" + Convert.ToString(counter) + " started!");
-                ClientHandler client = new ClientHandler();
-                clientList.Add(client);
-                client.startClient(clientSocket, Convert.ToString(counter));
+                string origin = message.Substring(0, 4);
+                if (origin.Substring(0, 1) == "!")
+                {
+                    Console.WriteLine("Origin is: "+origin);
+                }
+                else
+                {
+                    Console.WriteLine("Unknown message origin");
+                }
             }
 
-            clientSocket.Close();
-            serverSocket.Stop();
-            Console.WriteLine(" >> " + "exit");
-            Console.ReadLine();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            ClientHandler temp = clientList[0];
-            Thread clientThread = new Thread(new ThreadStart(temp.doChat));
-            clientThread.Name = "Client " + 0 + " Thread";
-            clientThread.Start();
-
-            
         }
  
     }

@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Net.Sockets;
 using System.Threading;
+using System.Windows.Forms;
+using System.Drawing;
+using System.IO;
+using System.Drawing.Imaging;
 
 namespace ET_Project_GUI.Network
 {
@@ -11,6 +15,11 @@ namespace ET_Project_GUI.Network
     {
         TcpClient clientSocket;
         string clNo;
+
+        public delegate void newMessage(string msg);
+        public newMessage newMessageToSend;
+
+
         public ClientHandler()
         {
         }
@@ -19,41 +28,40 @@ namespace ET_Project_GUI.Network
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
         }
-        public void doChat()
+        public void doListen()
         {
             byte[] recievedBytes = new byte[1000];
-            MessageFormater msgFormat = new MessageFormater();
-            while ((true))
+            bool stop = false;
+            while (!stop)
             {
-                try
-                {
+                    try
+                    {
+                        NetworkStream networkStream = clientSocket.GetStream();
+                        networkStream.Read(recievedBytes, 0, recievedBytes.Length);
+                        networkStream.Flush();
 
-                    NetworkStream networkStream = clientSocket.GetStream();
-                    networkStream.Read(recievedBytes, 0, recievedBytes.Length);
-                    networkStream.Flush();
-                    msgFormat.decodeMessage(recievedBytes);
-                    //Console.WriteLine(">>Message recieved : "+);
-
-                    
-                    //sendBytes = msgFormat.encodeMessage("!MAZ", "This is my message");
-                    //networkStream.Write(sendBytes, 0, sendBytes.Length);
-                    //Console.WriteLine("message sent");
-                    //Thread.Sleep(2000);
-
-                    //byte[] sendMessage = Encoding.ASCII.GetBytes("Test message");
-                    //networkStream.Write(sendMessage, 0, sendMessage.Length);
-                    //Console.WriteLine("message sent");
-                    //Thread.Sleep(2000);
-
-                    //networkStream.Read(recievedBytes,0,(int)clientSocket.ReceiveBufferSize);
-                    //Console.WriteLine("Recieved: " + Encoding.ASCII.GetString(recievedBytes));
-                    //networkStream.Flush();
-
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(" >> " + ex.ToString());
-                }
+                        //get message on buffer
+                        string fullMessage = Encoding.ASCII.GetString(recievedBytes);
+                        
+                        //check for abnormal disconnects
+                        if (!clientSocket.Connected || (clientSocket.Client.Poll(1000, SelectMode.SelectRead) && clientSocket.Client.Available == 0))
+                        {
+                            Console.WriteLine("client DC'ed");
+                            stop = true;
+                        }
+                        //everything good
+                        else
+                        {
+                            newMessageToSend(fullMessage);
+                        }
+                        
+                    }
+                    catch (SocketException)
+                    {
+                        //abnormal disconnected
+                        clientSocket.Close();
+                        stop = true;
+                    }             
             }
         }
     }

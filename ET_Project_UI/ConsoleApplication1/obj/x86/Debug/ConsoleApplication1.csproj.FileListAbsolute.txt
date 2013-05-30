@@ -1,5 +1,0 @@
-C:\shalsecode\C#\ET_Project_UI\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
-C:\shalsecode\C#\ET_Project_UI\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
-C:\shalsecode\C#\ET_Project_UI\ConsoleApplication1\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\shalsecode\C#\ET_Project_UI\ConsoleApplication1\obj\x86\Debug\ConsoleApplication1.exe
-C:\shalsecode\C#\ET_Project_UI\ConsoleApplication1\obj\x86\Debug\ConsoleApplication1.pdb

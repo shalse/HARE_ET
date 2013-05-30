@@ -34,7 +34,6 @@
         {
             this.Obs_TrackingMonitor_Button = new System.Windows.Forms.Button();
             this.Obs_EyeImageMonitor_Button = new System.Windows.Forms.Button();
-            this.Obs_RemoteView_Button = new System.Windows.Forms.Button();
             this.observationMonitorPictureBox = new System.Windows.Forms.PictureBox();
             this.App_SimonSays_Button = new System.Windows.Forms.Button();
             this.App_KeyboardControl_Button = new System.Windows.Forms.Button();
@@ -72,8 +71,6 @@
             this.Cal_Connect_Button = new System.Windows.Forms.Button();
             this.shapeContainer1 = new Microsoft.VisualBasic.PowerPacks.ShapeContainer();
             this.lineShape1 = new Microsoft.VisualBasic.PowerPacks.LineShape();
-            this.messageInput = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.observationMonitorPictureBox)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.calibrationAccuracyPictureBox)).BeginInit();
@@ -112,22 +109,6 @@
             this.Obs_EyeImageMonitor_Button.Text = "Eye Image Monitor";
             this.Obs_EyeImageMonitor_Button.UseVisualStyleBackColor = false;
             this.Obs_EyeImageMonitor_Button.Click += new System.EventHandler(this.Obs_EyeImageMonitor_Button_Click);
-            // 
-            // Obs_RemoteView_Button
-            // 
-            this.Obs_RemoteView_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
-            this.Obs_RemoteView_Button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Obs_RemoteView_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
-            this.Obs_RemoteView_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Obs_RemoteView_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Obs_RemoteView_Button.ForeColor = System.Drawing.Color.White;
-            this.Obs_RemoteView_Button.Location = new System.Drawing.Point(476, 147);
-            this.Obs_RemoteView_Button.Name = "Obs_RemoteView_Button";
-            this.Obs_RemoteView_Button.Size = new System.Drawing.Size(169, 31);
-            this.Obs_RemoteView_Button.TabIndex = 11;
-            this.Obs_RemoteView_Button.Text = "Remote View";
-            this.Obs_RemoteView_Button.UseVisualStyleBackColor = false;
-            this.Obs_RemoteView_Button.Click += new System.EventHandler(this.Obs_RemoteView_Button_Click);
             // 
             // observationMonitorPictureBox
             // 
@@ -669,31 +650,12 @@
             this.lineShape1.Y1 = 186;
             this.lineShape1.Y2 = 186;
             // 
-            // messageInput
-            // 
-            this.messageInput.Location = new System.Drawing.Point(519, 494);
-            this.messageInput.Name = "messageInput";
-            this.messageInput.Size = new System.Drawing.Size(100, 20);
-            this.messageInput.TabIndex = 25;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(625, 491);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 26;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(129)))), ((int)(((byte)(189)))));
             this.ClientSize = new System.Drawing.Size(876, 527);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.messageInput);
             this.Controls.Add(this.dataSampleRateComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.DataRec_StopDataRec_Button);
@@ -706,7 +668,6 @@
             this.Controls.Add(this.App_SimonSays_Button);
             this.Controls.Add(this.customPanel8);
             this.Controls.Add(this.observationMonitorPictureBox);
-            this.Controls.Add(this.Obs_RemoteView_Button);
             this.Controls.Add(this.Obs_EyeImageMonitor_Button);
             this.Controls.Add(this.Obs_TrackingMonitor_Button);
             this.Controls.Add(this.customPanel7);
@@ -720,7 +681,7 @@
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "Need a catch awesomeness title that every one like along with an icon for this ba" +
-    "r!";
+                "r!";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.observationMonitorPictureBox)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -760,7 +721,6 @@
         private CustomUserControls.CustomPanel customPanel7;
         private System.Windows.Forms.Button Obs_TrackingMonitor_Button;
         private System.Windows.Forms.Button Obs_EyeImageMonitor_Button;
-        private System.Windows.Forms.Button Obs_RemoteView_Button;
         private CustomUserControls.CustomPanel customPanel8;
         private System.Windows.Forms.PictureBox observationMonitorPictureBox;
         private System.Windows.Forms.Button App_SimonSays_Button;
@@ -774,8 +734,6 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox dataSampleRateComboBox;
-        private System.Windows.Forms.TextBox messageInput;
-        private System.Windows.Forms.Button button1;
 
 
     }
