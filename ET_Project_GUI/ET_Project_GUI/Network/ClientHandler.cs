@@ -18,7 +18,7 @@ namespace ET_Project_GUI.Network
 
         public delegate void newMessage(string msg);
         public newMessage newMessageToSend;
-
+        public bool running;
 
         public ClientHandler()
         {
@@ -27,31 +27,32 @@ namespace ET_Project_GUI.Network
         {
             this.clientSocket = inClientSocket;
             this.clNo = clineNo;
+            running = true;
         }
         public void doListen()
         {
             byte[] recievedBytes = new byte[1000];
-            bool stop = false;
-            while (!stop)
+            while (running)
             {
                     try
                     {
                         NetworkStream networkStream = clientSocket.GetStream();
-                        networkStream.Read(recievedBytes, 0, recievedBytes.Length);
-                        networkStream.Flush();
-
-                        //get message on buffer
-                        string fullMessage = Encoding.ASCII.GetString(recievedBytes);
+ 
                         
                         //check for abnormal disconnects
                         if (!clientSocket.Connected || (clientSocket.Client.Poll(1000, SelectMode.SelectRead) && clientSocket.Client.Available == 0))
                         {
                             Console.WriteLine("client DC'ed");
-                            stop = true;
+                            running = false;
                         }
                         //everything good
                         else
                         {
+                            networkStream.Read(recievedBytes, 0, recievedBytes.Length);
+                            networkStream.Flush();
+
+                            //get message on buffer
+                            string fullMessage = Encoding.ASCII.GetString(recievedBytes);
                             newMessageToSend(fullMessage);
                         }
                         
@@ -60,7 +61,7 @@ namespace ET_Project_GUI.Network
                     {
                         //abnormal disconnected
                         clientSocket.Close();
-                        stop = true;
+                        running = false;
                     }             
             }
         }

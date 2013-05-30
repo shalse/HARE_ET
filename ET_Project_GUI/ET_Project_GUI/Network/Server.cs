@@ -10,6 +10,7 @@ namespace ET_Project_GUI.Network
 {
     class Server
     {
+        public bool run;
         private List<ClientHandler> clientList;
         private int count = 0;
         
@@ -19,6 +20,7 @@ namespace ET_Project_GUI.Network
 
         public void startServer()
         {
+            run = true;
             IPHostEntry host;
             string localIP = "";
             host = Dns.GetHostEntry(Dns.GetHostName());
@@ -36,11 +38,18 @@ namespace ET_Project_GUI.Network
             int counter = 0;
 
             serverSocket.Start();
-            Console.WriteLine(" >> " + "Server Started");
+            Console.WriteLine(" >> " + "Server Started @ "+localIP);
 
             counter = 0;
-            while (true)
+            while (run)
             {
+                if (!serverSocket.Pending())
+                {
+                    Thread.Sleep(500);
+                    continue;
+                }
+                else
+                {
                     counter += 1;
                     clientSocket = serverSocket.AcceptTcpClient();
                     Console.WriteLine(" >> " + "Client No:" + Convert.ToString(counter) + " has connected");
@@ -49,8 +58,19 @@ namespace ET_Project_GUI.Network
                     client.startClient(clientSocket, Convert.ToString(counter));
                     client.newMessageToSend = messageHandler;
                     startClientThread();
+                }
             }
-
+            //kill the client threads
+            if (!run)
+            {
+                foreach (ClientHandler element in clientList)
+                {
+                    if(element != null && element.running == true)
+                    {
+                            element.running = false;
+                    }
+                }
+            }
             serverSocket.Stop();
             Console.WriteLine(" >> " + "exit");
             Console.ReadLine();

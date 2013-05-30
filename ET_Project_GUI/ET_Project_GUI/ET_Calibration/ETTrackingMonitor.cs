@@ -19,11 +19,10 @@ namespace ET_Project_GUI.ET_Calibration
         {
             m_TrackingMonitorCallback = new GetTrackingMonitorCallback(GetTrackingMonitorCallbackFunction);
             ETDevice.iV_SetTrackingMonitorCallback(m_TrackingMonitorCallback);
-            pictureBoxReference = inPicBox;            
+            pictureBoxReference = inPicBox;
         }
         private void GetTrackingMonitorCallbackFunction(ETController.ImageStruct image)
         {
-
             Bitmap trackingmonitorbmp;
             trackingmonitorbmp = new Bitmap(image.imageWidth, image.imageHeight, image.imageWidth * 3, PixelFormat.Format24bppRgb, image.imageBuffer);
             UpdateTrackingMonitor(trackingmonitorbmp);

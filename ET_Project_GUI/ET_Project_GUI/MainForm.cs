@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,7 +12,6 @@ using System.IO;
 using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Threading;
-using ET_Project_GUI.Testing;
 using System.Net.Sockets;
 using System.Net;
 
@@ -25,24 +24,24 @@ namespace ET_Project_GUI
         private ETCalibrate calibrateET;
         private ETController.AccuracyStruct m_AccuracyData;
         private CustomScreenCapture screenVideo;
-        private ETTrackingMonitor trackingMonitor; 
+        private ETTrackingMonitor trackingMonitor;
         private bool updatePoints;
-        private Thread serverThread;
+        private bool serverListenerEnabled;
         private ETSampleManager dataPoints;
 
-        
+
         /// <summary>
         /// This is the main form that we will use in a windows based environment. It also sets the default selections for the dropdown/combo boxes
         /// </summary>
         public MainForm()
         {
-                                
+
             //init components
             ETDevice = new ETController();
             calibrateET = new ETCalibrate();
             screenVideo = new CustomScreenCapture();
             updatePoints = true;
-            
+            serverListenerEnabled = true;
             dataPoints = new ETSampleManager(ETDevice);
             dataPoints.startDataFeedback();
 
@@ -52,12 +51,20 @@ namespace ET_Project_GUI
             //setup the default combobox selections
             callibrationPointComboBox.SelectedIndex = 2;
             targetShapeComboBox.SelectedIndex = 0;
+            dataExportComboBox.SelectedIndex = 0;
             dataSampleRateComboBox.SelectedIndex = 2;
-            
-            //start the server to listen for incoming connections
-            startMessageServer();
-        }
 
+            //start the server to listen for incoming connections
+            //TODO Enable server listener
+            //Thread serverListener = new Thread(new ThreadStart(startServerListener));
+            //serverListener.Name = "Server Listener Thread";
+            //serverListener.Start();
+
+            Thread serverListener = new Thread(new ThreadStart(startServerListener2));
+            serverListener.Name = "Server Listener Thread";
+            serverListener.Start();
+
+        }
         private void onProgramClose()
         {
             //stop recoding the avi video on close (prevents corruption of avi file)
@@ -66,9 +73,15 @@ namespace ET_Project_GUI
             //kill the update point thread
             updatePoints = false;
 
-            //kill message server
-            serverThread.Abort();
-
+            //kill the socket listener
+            serverListenerEnabled = false;
+            foreach (ClientHandler element in clientList)
+            {
+                if (element != null && element.running == true)
+                {
+                    element.running = false;
+                }
+            }
         }
 
 
@@ -76,9 +89,9 @@ namespace ET_Project_GUI
         {
 
         }
-//*******************************************
-//      CALIBRATION
-//*******************************************
+        //*******************************************
+        //      CALIBRATION
+        //*******************************************
         //button click handler used to load and connect the application to the eye tracking server
         private void Cal_Connect_Button_Click(object sender, EventArgs e)
         {
@@ -87,7 +100,7 @@ namespace ET_Project_GUI
 
 
             ETConnection connectToEyeTracker = new ETConnection();
-            int res =  connectToEyeTracker.connect(ETDevice);
+            int res = connectToEyeTracker.connect(ETDevice);
 
 
             if (res == 104)//res 104 is used if no server has been started
@@ -98,7 +111,7 @@ namespace ET_Project_GUI
                 {
                     Cal_Connect_Button_Click(sender, e);
                 }
-                
+
             }
             else if (res != 1)//any other message (see SMI manual for error codes)
             {
@@ -113,12 +126,12 @@ namespace ET_Project_GUI
 
                 //m_EyeImageCallback = new GetEyeImageCallback(GetEyeImageCallbackFunction);
                 //ETDevice.iV_SetEyeImageCallback(m_EyeImageCallback);
-                
+
 
                 //enable trackingmonitor and eyeimage monitor button (code should auto load this view first time)
                 Obs_TrackingMonitor_Button.Enabled = true;
                 Obs_EyeImageMonitor_Button.Enabled = true;
-                
+
                 //Allow/Enable the next step (Calibration)
                 Cal_Calibrate_Button.Enabled = true;
 
@@ -126,14 +139,14 @@ namespace ET_Project_GUI
                 Thread etPoisitionUpdater = new Thread(new ThreadStart(updateETEyePosition));
                 etPoisitionUpdater.Name = "Update ET position data Thread";
                 etPoisitionUpdater.Start();
-                
+
             }
         }
 
         // button click handler used to calibrate the eye tracker
         private void Cal_Calibrate_Button_Click(object sender, EventArgs e)
         {
-            if(calibrateET.Calibrate(ETDevice) != 1)
+            if (calibrateET.Calibrate(ETDevice) != 1)
             {
                 DialogResult messagebox = MessageBox.Show("Calibration for the Eye Tracker failed", "Error Calibrating Eye Tracker",
                 MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
@@ -143,20 +156,20 @@ namespace ET_Project_GUI
                 }
             }
             else
-            { 
+            {
                 Cal_Validate_Button.Enabled = true;
             }
         }
-       
+
         //button click handler used to validate the eye tracker calibration
         private void Cal_Validate_Button_Click(object sender, EventArgs e)
         {
             ETValidate etVal = new ETValidate(ETDevice, calibrationAccuracyPictureBox);
             int result = etVal.validate();
-            
+
             if (result != 1)
             {
-                DialogResult messagebox = MessageBox.Show("Validation for the Eye Tracker failed, Error #: "+result, "Error Validating Eye Tracker",
+                DialogResult messagebox = MessageBox.Show("Validation for the Eye Tracker failed, Error #: " + result, "Error Validating Eye Tracker",
                 MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
                 if (messagebox == DialogResult.Retry)
                 {
@@ -190,7 +203,7 @@ namespace ET_Project_GUI
                 if (messagebox == DialogResult.Retry)
                 {
                     Cal_CheckAccuracy_Button_Click(sender, e);
-                }  
+                }
             }
             else
             {
@@ -198,9 +211,9 @@ namespace ET_Project_GUI
             }
         }
 
-//*******************************************
-//      DATA RECORDING SECTION
-//*******************************************
+        //*******************************************
+        //      DATA RECORDING SECTION
+        //*******************************************
 
         // button click handler used save the accuracy image to a png file for later reference
         private void DataRec_SaveCalAcc_Button_Click(object sender, EventArgs e)
@@ -209,12 +222,12 @@ namespace ET_Project_GUI
             try
             {
                 calibrationAccuracyPictureBox.Image.Save("CalibrationAccuracy.png", ImageFormat.Png);
-                MessageBox.Show("Calibration Accuracy Image Saved as CalibrationAccuracy.png", "Image Saved", MessageBoxButtons.OK); 
+                MessageBox.Show("Calibration Accuracy Image Saved as CalibrationAccuracy.png", "Image Saved", MessageBoxButtons.OK);
             }
             catch (NullReferenceException ex)
             {
                 //file not valid
-                Console.WriteLine("Error: "+ex.Message);
+                Console.WriteLine("Error: " + ex.Message);
             }
 
         }
@@ -231,9 +244,9 @@ namespace ET_Project_GUI
                 aviThread.Start();
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                Console.WriteLine("Could not start video recording thread: "+ex);
+                Console.WriteLine("Could not start video recording thread: " + ex);
             }
         }
 
@@ -242,10 +255,10 @@ namespace ET_Project_GUI
         {
             screenVideo.stopRecording();
         }
-       
-//*******************************************
-//      OBSERVATION SECTION
-//*******************************************
+
+        //*******************************************
+        //      OBSERVATION SECTION
+        //*******************************************
         // button click handler used to load the eye position monitor (show your eyes are in correct position). It is only enabled after your have succesfully connected to the ET.
         private void Obs_TrackingMonitor_Button_Click(object sender, EventArgs e)
         {
@@ -267,12 +280,24 @@ namespace ET_Project_GUI
             {
                 Console.WriteLine("iV_ShowEyeImageMonitor Exception: " + exc.Message);
             }
-            
+
         }
-        
-//*******************************************
-//      APPLICATIONS SECTION
-//******************************************
+
+        // button click handler used to load the remote view. Note that this option will become disabled if you are connected to the eye tracker. The purpose
+        private void Obs_RemoteView_Button_Click(object sender, EventArgs e)
+        {
+            //disable all calibration buttons as this will be the "experimenters computer"
+            Cal_Connect_Button.Enabled = false;
+            Cal_Calibrate_Button.Enabled = false;
+            Cal_Validate_Button.Enabled = false;
+            Cal_CheckAccuracy_Button.Enabled = false;
+
+            // TODO "SHANE" add logic for loading remote view
+        }
+
+        //*******************************************
+        //      APPLICATIONS SECTION
+        //******************************************
         //button click handler used to load the Simon Says game
         private void App_SimonSays_Button_Click(object sender, EventArgs e)
         {
@@ -290,7 +315,7 @@ namespace ET_Project_GUI
         {
             // TODO "PETER" add logic for loading keyboard control app
         }
-    
+
         //button click handler used to load the Mouse control app
         private void App_MouseControl_Button_Click(object sender, EventArgs e)
         {
@@ -301,7 +326,7 @@ namespace ET_Project_GUI
         private void App_OtherApps_Button_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
-            
+
             openFileDialog.Filter = "Executables|*.exe|All Files (*.*)|*.*";
             openFileDialog.FilterIndex = 1;
             DialogResult res = openFileDialog.ShowDialog();
@@ -323,8 +348,6 @@ namespace ET_Project_GUI
 //*******************************************
 //      SUPPORT FUNCTIONS SECTION
 //******************************************
-        
-       
         //used when any of the calibration data has changed (from the combo boxes)
         private void callibrationDataChanged(object sender, EventArgs e)
         {
@@ -354,7 +377,7 @@ namespace ET_Project_GUI
             {
                 int xPos = (int)((dataPoints.etPositionData.leftEye.gazeX + dataPoints.etPositionData.rightEye.gazeX) / 2);
                 int yPos = (int)((dataPoints.etPositionData.leftEye.gazeY + dataPoints.etPositionData.rightEye.gazeY) / 2);
-                
+
                 //send to AVI recorder
                 screenVideo.CurrentEyePosition = new Point(xPos, yPos);
 
@@ -363,37 +386,67 @@ namespace ET_Project_GUI
                 Thread.Sleep(100);
             }
         }
-//*******************************************
-//      Testing area
-//*******************************************
-        //used to start the TCP server for sending et data to the applications and recieveing data from the games 
-        private void startMessageServer()
+        //*******************************************
+        //      Testing area
+        //*******************************************
+        private List<ClientHandler> clientList;
+        private void startServerListener2()
         {
-            Server svr = new Server();
-            svr.newMessageToSend = messageRecieved;
-
-            serverThread = new Thread(new ThreadStart(svr.startServer));
-            serverThread.Name = "SVR Thread";
-            serverThread.Start();
-        }
-        public void messageRecieved(string message)
-        {
-            //TODO do something with the message recieved from socket
-            //[game type][message length][message data]
-            if (message.Length >= 8)
+            IPHostEntry host;
+            string localIP = "";
+            host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (IPAddress ip in host.AddressList)
             {
-                string origin = message.Substring(0, 4);
-                if (origin.Substring(0, 1) == "!")
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
                 {
-                    Console.WriteLine("Origin is: "+origin);
+                    localIP = ip.ToString();
+                }
+            }
+            TcpListener serverSocket = new TcpListener(IPAddress.Parse(localIP), 10000);
+            TcpClient clientSocket = default(TcpClient);
+            clientList = new List<ClientHandler>();
+
+            int counter = 0;
+
+            serverSocket.Start();
+            Console.WriteLine(" >> " + "Server Started");
+
+            counter = 0;
+            while (serverListenerEnabled)
+            {
+                if(!serverSocket.Pending())
+                {
+                    Thread.Sleep(500);
+                    continue;
                 }
                 else
                 {
-                    Console.WriteLine("Unknown message origin");
+                    counter += 1;
+                    clientSocket = serverSocket.AcceptTcpClient();
+                    Console.WriteLine(" >> " + "Client No:" + Convert.ToString(counter) + " started!");
+                    ClientHandler client = new ClientHandler();
+                    clientList.Add(client);
+                    client.startClient(clientSocket, Convert.ToString(counter));
+                    Thread clientThread = new Thread(new ThreadStart(client.doListen));
+                    clientThread.Name = "Client " + counter + " Thread";
+                    client.newMessageToSend = newMessageRecieved;
+                    clientThread.Start();
                 }
             }
 
+            clientSocket.Close();
+            serverSocket.Stop();
+            Console.WriteLine(" >> " + "exit");
+            Console.ReadLine();
         }
- 
+
+        private void newMessageRecieved(string inMsg)
+        {
+            Console.WriteLine(">>Message " + inMsg.Trim('\0'));
+            DataParser dataParse = new DataParser();
+            dataParse.parseDataString(inMsg.Trim('\0'));
+
+        }
+
     }
 }

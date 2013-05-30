@@ -32,12 +32,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.Obs_TrackingMonitor_Button = new System.Windows.Forms.Button();
             this.Obs_EyeImageMonitor_Button = new System.Windows.Forms.Button();
             this.observationMonitorPictureBox = new System.Windows.Forms.PictureBox();
             this.App_SimonSays_Button = new System.Windows.Forms.Button();
-            this.App_KeyboardControl_Button = new System.Windows.Forms.Button();
-            this.App_MouseControl_Button = new System.Windows.Forms.Button();
             this.App_OtherApps_Button = new System.Windows.Forms.Button();
             this.App_Maze_Button = new System.Windows.Forms.Button();
             this.DataRec_SaveCalAcc_Button = new System.Windows.Forms.Button();
@@ -45,21 +44,25 @@
             this.DataRec_StopDataRec_Button = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dataSampleRateComboBox = new System.Windows.Forms.ComboBox();
-            this.customPanel8 = new CustomUserControls.CustomPanel();
-            this.customPanel7 = new CustomUserControls.CustomPanel();
-            this.customPanel6 = new CustomUserControls.CustomPanel();
-            this.customPanel5 = new CustomUserControls.CustomPanel();
-            this.customPanel4 = new CustomUserControls.CustomPanel();
-            this.customPanel3 = new CustomUserControls.CustomPanel();
-            this.customPanel2 = new CustomUserControls.CustomPanel();
-            this.customPanel1 = new CustomUserControls.CustomPanel();
-            this.panel1 = new CustomUserControls.CustomPanel();
+            this.button1 = new System.Windows.Forms.Button();
+            this.dataExportComboBox = new System.Windows.Forms.ComboBox();
+            this.customPanel10 = new ET_Project_GUI.CustomPanel();
+            this.customPanel9 = new ET_Project_GUI.CustomPanel();
+            this.customPanel8 = new ET_Project_GUI.CustomPanel();
+            this.customPanel7 = new ET_Project_GUI.CustomPanel();
+            this.customPanel6 = new ET_Project_GUI.CustomPanel();
+            this.customPanel5 = new ET_Project_GUI.CustomPanel();
+            this.customPanel4 = new ET_Project_GUI.CustomPanel();
+            this.customPanel3 = new ET_Project_GUI.CustomPanel();
+            this.customPanel2 = new ET_Project_GUI.CustomPanel();
+            this.customPanel1 = new ET_Project_GUI.CustomPanel();
+            this.panel1 = new ET_Project_GUI.CustomPanel();
             this.targetShapeComboBox = new System.Windows.Forms.ComboBox();
             this.callibrationPointComboBox = new System.Windows.Forms.ComboBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new CustomUserControls.CustomPanel();
-            this.label6 = new CustomUserControls.CustomPanel();
+            this.label7 = new ET_Project_GUI.CustomPanel();
+            this.label6 = new ET_Project_GUI.CustomPanel();
             this.calibrationAccuracyPictureBox = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -85,7 +88,7 @@
             this.Obs_TrackingMonitor_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Obs_TrackingMonitor_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Obs_TrackingMonitor_Button.ForeColor = System.Drawing.Color.White;
-            this.Obs_TrackingMonitor_Button.Location = new System.Drawing.Point(476, 70);
+            this.Obs_TrackingMonitor_Button.Location = new System.Drawing.Point(476, 51);
             this.Obs_TrackingMonitor_Button.Name = "Obs_TrackingMonitor_Button";
             this.Obs_TrackingMonitor_Button.Size = new System.Drawing.Size(169, 31);
             this.Obs_TrackingMonitor_Button.TabIndex = 9;
@@ -102,7 +105,7 @@
             this.Obs_EyeImageMonitor_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.Obs_EyeImageMonitor_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Obs_EyeImageMonitor_Button.ForeColor = System.Drawing.Color.White;
-            this.Obs_EyeImageMonitor_Button.Location = new System.Drawing.Point(476, 108);
+            this.Obs_EyeImageMonitor_Button.Location = new System.Drawing.Point(476, 88);
             this.Obs_EyeImageMonitor_Button.Name = "Obs_EyeImageMonitor_Button";
             this.Obs_EyeImageMonitor_Button.Size = new System.Drawing.Size(169, 31);
             this.Obs_EyeImageMonitor_Button.TabIndex = 10;
@@ -114,7 +117,7 @@
             // 
             this.observationMonitorPictureBox.BackColor = System.Drawing.Color.White;
             this.observationMonitorPictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.observationMonitorPictureBox.Location = new System.Drawing.Point(666, 87);
+            this.observationMonitorPictureBox.Location = new System.Drawing.Point(666, 51);
             this.observationMonitorPictureBox.Name = "observationMonitorPictureBox";
             this.observationMonitorPictureBox.Size = new System.Drawing.Size(180, 137);
             this.observationMonitorPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -129,45 +132,13 @@
             this.App_SimonSays_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.App_SimonSays_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.App_SimonSays_Button.ForeColor = System.Drawing.Color.White;
-            this.App_SimonSays_Button.Location = new System.Drawing.Point(533, 290);
+            this.App_SimonSays_Button.Location = new System.Drawing.Point(533, 247);
             this.App_SimonSays_Button.Name = "App_SimonSays_Button";
             this.App_SimonSays_Button.Size = new System.Drawing.Size(263, 31);
             this.App_SimonSays_Button.TabIndex = 14;
-            this.App_SimonSays_Button.Text = "Simon Says Game";
+            this.App_SimonSays_Button.Text = "Cicero Game";
             this.App_SimonSays_Button.UseVisualStyleBackColor = false;
             this.App_SimonSays_Button.Click += new System.EventHandler(this.App_SimonSays_Button_Click);
-            // 
-            // App_KeyboardControl_Button
-            // 
-            this.App_KeyboardControl_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
-            this.App_KeyboardControl_Button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.App_KeyboardControl_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
-            this.App_KeyboardControl_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.App_KeyboardControl_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.App_KeyboardControl_Button.ForeColor = System.Drawing.Color.White;
-            this.App_KeyboardControl_Button.Location = new System.Drawing.Point(533, 364);
-            this.App_KeyboardControl_Button.Name = "App_KeyboardControl_Button";
-            this.App_KeyboardControl_Button.Size = new System.Drawing.Size(263, 31);
-            this.App_KeyboardControl_Button.TabIndex = 15;
-            this.App_KeyboardControl_Button.Text = "Keyboard Control";
-            this.App_KeyboardControl_Button.UseVisualStyleBackColor = false;
-            this.App_KeyboardControl_Button.Click += new System.EventHandler(this.App_KeyboardControl_Button_Click);
-            // 
-            // App_MouseControl_Button
-            // 
-            this.App_MouseControl_Button.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
-            this.App_MouseControl_Button.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.App_MouseControl_Button.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
-            this.App_MouseControl_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.App_MouseControl_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.App_MouseControl_Button.ForeColor = System.Drawing.Color.White;
-            this.App_MouseControl_Button.Location = new System.Drawing.Point(533, 401);
-            this.App_MouseControl_Button.Name = "App_MouseControl_Button";
-            this.App_MouseControl_Button.Size = new System.Drawing.Size(263, 31);
-            this.App_MouseControl_Button.TabIndex = 16;
-            this.App_MouseControl_Button.Text = "Mouse Control";
-            this.App_MouseControl_Button.UseVisualStyleBackColor = false;
-            this.App_MouseControl_Button.Click += new System.EventHandler(this.App_MouseControl_Button_Click);
             // 
             // App_OtherApps_Button
             // 
@@ -177,7 +148,7 @@
             this.App_OtherApps_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.App_OtherApps_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.App_OtherApps_Button.ForeColor = System.Drawing.Color.White;
-            this.App_OtherApps_Button.Location = new System.Drawing.Point(533, 438);
+            this.App_OtherApps_Button.Location = new System.Drawing.Point(533, 321);
             this.App_OtherApps_Button.Name = "App_OtherApps_Button";
             this.App_OtherApps_Button.Size = new System.Drawing.Size(263, 31);
             this.App_OtherApps_Button.TabIndex = 17;
@@ -193,11 +164,11 @@
             this.App_Maze_Button.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.App_Maze_Button.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.App_Maze_Button.ForeColor = System.Drawing.Color.White;
-            this.App_Maze_Button.Location = new System.Drawing.Point(533, 327);
+            this.App_Maze_Button.Location = new System.Drawing.Point(533, 284);
             this.App_Maze_Button.Name = "App_Maze_Button";
             this.App_Maze_Button.Size = new System.Drawing.Size(263, 31);
             this.App_Maze_Button.TabIndex = 18;
-            this.App_Maze_Button.Text = "Maze Game";
+            this.App_Maze_Button.Text = "Gaze Maze Game";
             this.App_Maze_Button.UseVisualStyleBackColor = false;
             this.App_Maze_Button.Click += new System.EventHandler(this.App_Maze_Button_Click);
             // 
@@ -280,6 +251,61 @@
             this.dataSampleRateComboBox.Size = new System.Drawing.Size(216, 27);
             this.dataSampleRateComboBox.TabIndex = 24;
             // 
+            // button1
+            // 
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
+            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(666, 425);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(169, 31);
+            this.button1.TabIndex = 27;
+            this.button1.Text = "Export";
+            this.button1.UseVisualStyleBackColor = false;
+            // 
+            // dataExportComboBox
+            // 
+            this.dataExportComboBox.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.dataExportComboBox.FormattingEnabled = true;
+            this.dataExportComboBox.Items.AddRange(new object[] {
+            "TODO - CSV",
+            "TODO - SQL",
+            "TODO - ACCESS",
+            "TODO - ETC",
+            "TODO - ETC",
+            ""});
+            this.dataExportComboBox.Location = new System.Drawing.Point(476, 427);
+            this.dataExportComboBox.Name = "dataExportComboBox";
+            this.dataExportComboBox.Size = new System.Drawing.Size(181, 27);
+            this.dataExportComboBox.TabIndex = 28;
+            // 
+            // customPanel10
+            // 
+            this.customPanel10.BackColor = System.Drawing.Color.White;
+            this.customPanel10.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(172)))), ((int)(((byte)(198)))));
+            this.customPanel10.BorderWidth = 2;
+            this.customPanel10.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
+            this.customPanel10.Location = new System.Drawing.Point(476, 376);
+            this.customPanel10.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
+            this.customPanel10.Name = "customPanel10";
+            this.customPanel10.PanelText = "DATA EXPORT";
+            this.customPanel10.Size = new System.Drawing.Size(153, 26);
+            this.customPanel10.TabIndex = 26;
+            // 
+            // customPanel9
+            // 
+            this.customPanel9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(150)))), ((int)(((byte)(70)))));
+            this.customPanel9.BorderColor = System.Drawing.Color.White;
+            this.customPanel9.BorderWidth = 2;
+            this.customPanel9.Location = new System.Drawing.Point(466, 388);
+            this.customPanel9.Name = "customPanel9";
+            this.customPanel9.PanelText = "";
+            this.customPanel9.Size = new System.Drawing.Size(400, 96);
+            this.customPanel9.TabIndex = 25;
+            // 
             // customPanel8
             // 
             this.customPanel8.AutoSize = true;
@@ -288,7 +314,7 @@
             this.customPanel8.BorderWidth = 3;
             this.customPanel8.Font = new System.Drawing.Font("Arial Narrow", 12F, ((System.Drawing.FontStyle)((System.Drawing.FontStyle.Bold | System.Drawing.FontStyle.Underline))), System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customPanel8.ForeColor = System.Drawing.Color.Black;
-            this.customPanel8.Location = new System.Drawing.Point(666, 56);
+            this.customPanel8.Location = new System.Drawing.Point(666, 20);
             this.customPanel8.Margin = new System.Windows.Forms.Padding(4);
             this.customPanel8.MinimumSize = new System.Drawing.Size(170, 26);
             this.customPanel8.Name = "customPanel8";
@@ -315,7 +341,7 @@
             this.customPanel6.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(172)))), ((int)(((byte)(198)))));
             this.customPanel6.BorderWidth = 2;
             this.customPanel6.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.customPanel6.Location = new System.Drawing.Point(476, 247);
+            this.customPanel6.Location = new System.Drawing.Point(476, 210);
             this.customPanel6.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.customPanel6.Name = "customPanel6";
             this.customPanel6.PanelText = "APPLICATIONS";
@@ -328,7 +354,7 @@
             this.customPanel5.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(172)))), ((int)(((byte)(198)))));
             this.customPanel5.BorderWidth = 2;
             this.customPanel5.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
-            this.customPanel5.Location = new System.Drawing.Point(476, 25);
+            this.customPanel5.Location = new System.Drawing.Point(476, 5);
             this.customPanel5.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.customPanel5.Name = "customPanel5";
             this.customPanel5.PanelText = "OBSERVATION";
@@ -340,10 +366,10 @@
             this.customPanel4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(150)))), ((int)(((byte)(70)))));
             this.customPanel4.BorderColor = System.Drawing.Color.White;
             this.customPanel4.BorderWidth = 2;
-            this.customPanel4.Location = new System.Drawing.Point(466, 261);
+            this.customPanel4.Location = new System.Drawing.Point(466, 223);
             this.customPanel4.Name = "customPanel4";
             this.customPanel4.PanelText = "";
-            this.customPanel4.Size = new System.Drawing.Size(400, 222);
+            this.customPanel4.Size = new System.Drawing.Size(400, 146);
             this.customPanel4.TabIndex = 5;
             // 
             // customPanel3
@@ -362,10 +388,10 @@
             this.customPanel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(247)))), ((int)(((byte)(150)))), ((int)(((byte)(70)))));
             this.customPanel2.BorderColor = System.Drawing.Color.White;
             this.customPanel2.BorderWidth = 2;
-            this.customPanel2.Location = new System.Drawing.Point(466, 39);
+            this.customPanel2.Location = new System.Drawing.Point(466, 15);
             this.customPanel2.Name = "customPanel2";
             this.customPanel2.PanelText = "";
-            this.customPanel2.Size = new System.Drawing.Size(400, 194);
+            this.customPanel2.Size = new System.Drawing.Size(400, 187);
             this.customPanel2.TabIndex = 3;
             // 
             // customPanel1
@@ -421,6 +447,7 @@
             this.targetShapeComboBox.Name = "targetShapeComboBox";
             this.targetShapeComboBox.Size = new System.Drawing.Size(121, 27);
             this.targetShapeComboBox.TabIndex = 15;
+            this.targetShapeComboBox.SelectedIndexChanged += new System.EventHandler(this.callibrationDataChanged);
             // 
             // callibrationPointComboBox
             // 
@@ -448,7 +475,7 @@
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(140, 25);
             this.label9.TabIndex = 13;
-            this.label9.Text = "Callibration Points";
+            this.label9.Text = "Calibration Points";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label8
@@ -656,6 +683,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(129)))), ((int)(((byte)(189)))));
             this.ClientSize = new System.Drawing.Size(876, 527);
+            this.Controls.Add(this.dataExportComboBox);
+            this.Controls.Add(this.button1);
+            this.Controls.Add(this.customPanel10);
+            this.Controls.Add(this.customPanel9);
             this.Controls.Add(this.dataSampleRateComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.DataRec_StopDataRec_Button);
@@ -663,8 +694,6 @@
             this.Controls.Add(this.DataRec_SaveCalAcc_Button);
             this.Controls.Add(this.App_Maze_Button);
             this.Controls.Add(this.App_OtherApps_Button);
-            this.Controls.Add(this.App_MouseControl_Button);
-            this.Controls.Add(this.App_KeyboardControl_Button);
             this.Controls.Add(this.App_SimonSays_Button);
             this.Controls.Add(this.customPanel8);
             this.Controls.Add(this.observationMonitorPictureBox);
@@ -678,10 +707,10 @@
             this.Controls.Add(this.customPanel2);
             this.Controls.Add(this.customPanel1);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(5);
-            this.Text = "Need a catch awesomeness title that every one like along with an icon for this ba" +
-                "r!";
+            this.Text = "At A Glance";
             this.Load += new System.EventHandler(this.MainForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.observationMonitorPictureBox)).EndInit();
             this.panel1.ResumeLayout(false);
@@ -695,8 +724,8 @@
         #endregion
 
         //private System.Windows.Forms.Panel panel1;
-        private CustomUserControls.CustomPanel panel1;
-        private CustomUserControls.CustomPanel label6;
+        private CustomPanel panel1;
+        private CustomPanel label6;
         private System.Windows.Forms.PictureBox calibrationAccuracyPictureBox;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
@@ -705,27 +734,25 @@
         private System.Windows.Forms.Button Cal_Validate_Button;
         private System.Windows.Forms.Button Cal_Calibrate_Button;
         private System.Windows.Forms.Button Cal_Connect_Button;
-        private CustomUserControls.CustomPanel label7;
+        private CustomPanel label7;
         private Microsoft.VisualBasic.PowerPacks.ShapeContainer shapeContainer1;
         private Microsoft.VisualBasic.PowerPacks.LineShape lineShape1;
         private System.Windows.Forms.ComboBox targetShapeComboBox;
         private System.Windows.Forms.ComboBox callibrationPointComboBox;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
-        private CustomUserControls.CustomPanel customPanel1;
-        private CustomUserControls.CustomPanel customPanel2;
-        private CustomUserControls.CustomPanel customPanel3;
-        private CustomUserControls.CustomPanel customPanel4;
-        private CustomUserControls.CustomPanel customPanel5;
-        private CustomUserControls.CustomPanel customPanel6;
-        private CustomUserControls.CustomPanel customPanel7;
+        private CustomPanel customPanel1;
+        private CustomPanel customPanel2;
+        private CustomPanel customPanel3;
+        private CustomPanel customPanel4;
+        private CustomPanel customPanel5;
+        private CustomPanel customPanel6;
+        private CustomPanel customPanel7;
         private System.Windows.Forms.Button Obs_TrackingMonitor_Button;
         private System.Windows.Forms.Button Obs_EyeImageMonitor_Button;
-        private CustomUserControls.CustomPanel customPanel8;
+        private CustomPanel customPanel8;
         private System.Windows.Forms.PictureBox observationMonitorPictureBox;
         private System.Windows.Forms.Button App_SimonSays_Button;
-        private System.Windows.Forms.Button App_KeyboardControl_Button;
-        private System.Windows.Forms.Button App_MouseControl_Button;
         private System.Windows.Forms.Button App_OtherApps_Button;
         private System.Windows.Forms.Button App_Maze_Button;
         private System.Windows.Forms.Button DataRec_SaveCalAcc_Button;
@@ -734,6 +761,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox dataSampleRateComboBox;
+        private CustomPanel customPanel9;
+        private CustomPanel customPanel10;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.ComboBox dataExportComboBox;
 
 
     }

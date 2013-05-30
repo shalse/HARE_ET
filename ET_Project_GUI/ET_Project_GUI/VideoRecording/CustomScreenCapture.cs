@@ -53,9 +53,20 @@ namespace ET_Project_GUI
                 g.FillEllipse(fillBrush, currentPoint.X, currentPoint.Y, 10, 10);
                 if (tempBmp != null)
                 {
-                    aviStream.AddFrame(tempBmp);
+                    try
+                    {
+                        aviStream.AddFrame(tempBmp);
+                    }
+                    catch
+                    {
+                        Bitmap bmp2 = tempBmp;
+                        tempBmp.Dispose();
+                        tempBmp = new Bitmap((Image)bmp2);
+                        aviStream.AddFrame(tempBmp);
+                    }
                 }
                 tempBmp.Dispose();
+                Thread.Sleep(100);
             }
             aviManager.Close();
         }
