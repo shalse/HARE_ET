@@ -7,6 +7,7 @@ using AviFile;
 using System.Windows.Forms;
 using System.Threading;
 using System.Drawing.Imaging;
+using System.Diagnostics;
 
 namespace ET_Project_GUI
 {
@@ -19,6 +20,7 @@ namespace ET_Project_GUI
         private Graphics g;
         private VideoStream aviStream = null;
         public bool pause = false;
+        private string elapsedTime = "";
 
         //used for circle over lay
         private Brush fillBrush = new SolidBrush(ColorTranslator.FromHtml("#ff0000"));
@@ -51,6 +53,9 @@ namespace ET_Project_GUI
                 g = Graphics.FromImage(tempBmp);
                 g.CopyFromScreen(Point.Empty, Point.Empty, Screen.PrimaryScreen.Bounds.Size);
                 g.FillEllipse(fillBrush, currentPoint.X, currentPoint.Y, 10, 10);
+                
+                g.DrawString(elapsedTime,new Font("Arial",12),new SolidBrush(Color.White),
+                
                 if (tempBmp != null)
                 {
                     try
@@ -69,6 +74,20 @@ namespace ET_Project_GUI
                 Thread.Sleep(100);
             }
             aviManager.Close();
+        }
+        public void startVideoTimer()
+        {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            while (!pause)
+            {
+                TimeSpan ts = stopWatch.Elapsed;
+
+                // Format and display the TimeSpan value. 
+                elapsedTime = String.Format("{0:00}:{1:00}:{2:00}.{3:00}",
+                    ts.Hours, ts.Minutes, ts.Seconds,
+                    ts.Milliseconds / 10);
+            }
         }
         public void stopRecording()
         {

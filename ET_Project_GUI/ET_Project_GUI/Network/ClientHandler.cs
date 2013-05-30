@@ -9,7 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Drawing.Imaging;
 
-namespace ET_Project_GUI.Network
+namespace ET_Project_GUI.Data
 {
     class ClientHandler
     {

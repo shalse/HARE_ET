@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using ET_Project_GUI.Network;
+using ET_Project_GUI.Data;
 using ET_Project_GUI.ET_Calibration;
 using System.IO;
 using System.Diagnostics;
@@ -69,6 +69,8 @@ namespace ET_Project_GUI
         {
             //stop recoding the avi video on close (prevents corruption of avi file)
             this.screenVideo.stopRecording();
+
+
 
             //kill the update point thread
             updatePoints = false;
@@ -243,6 +245,10 @@ namespace ET_Project_GUI
                 aviThread.Name = "AVI Recording Thread";
                 aviThread.Start();
 
+                Thread vidTimer = new Thread(new ThreadStart(screenVideo.startVideoTimer));
+                vidTimer.Name = "Avi timer Thread";
+                vidTimer.Start();
+
             }
             catch (Exception ex)
             {
@@ -416,6 +422,7 @@ namespace ET_Project_GUI
             {
                 if(!serverSocket.Pending())
                 {
+                    Console.WriteLine("x:" + MousePosition.X + "Y:" + MousePosition.Y);
                     Thread.Sleep(500);
                     continue;
                 }
@@ -434,7 +441,6 @@ namespace ET_Project_GUI
                 }
             }
 
-            clientSocket.Close();
             serverSocket.Stop();
             Console.WriteLine(" >> " + "exit");
             Console.ReadLine();
@@ -442,10 +448,23 @@ namespace ET_Project_GUI
 
         private void newMessageRecieved(string inMsg)
         {
-            Console.WriteLine(">>Message " + inMsg.Trim('\0'));
             DataParser dataParse = new DataParser();
-            dataParse.parseDataString(inMsg.Trim('\0'));
 
+            if (dataParse.parseDataString(inMsg.Trim('\0')) == "Success")
+            {
+                handleData(dataParse.storageTable);
+            }
+            else //TODO handle start game
+            {
+            }
+
+        }
+
+        private void handleData(Dictionary<string, string> dictionary)
+        {
+            Console.WriteLine("Data parsed and receive succesful");
+            
+            //TODO save data
         }
 
     }

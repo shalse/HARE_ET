@@ -6,7 +6,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 
-namespace ET_Project_GUI.Network
+namespace ET_Project_GUI.Data
 {
     class Server
     {

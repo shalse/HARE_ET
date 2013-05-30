@@ -68,7 +68,7 @@
       <DependentUpon>EnterUserID.cs</DependentUpon>
     </Compile>
     <Compile Include="Network\ClientHandler.cs" />
-    <Compile Include="Network\DataParser.cs" />
+    <Compile Include="Data\DataParser.cs" />
     <Compile Include="Network\Server.cs" />
     <Compile Include="VideoRecording\CustomScreenCapture.cs" />
     <Compile Include="ETController.cs" />

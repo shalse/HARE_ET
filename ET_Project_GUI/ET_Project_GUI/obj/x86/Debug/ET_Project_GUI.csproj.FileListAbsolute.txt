@@ -10,13 +10,7 @@ C:\shalsecode\C#\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.pdb
 C:\shalsecode\C#\ET_Project_GUI\ET_Project_GUI\bin\Debug\CustomUserControls.dll
 C:\shalsecode\C#\ET_Project_GUI\ET_Project_GUI\bin\Debug\CustomUserControls.pdb
 C:\shalsecode\C#\ET_Project_GUI\ET_Project_GUI\bin\Debug\AviFile.dll
-C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.exe
-C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.pdb
-C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\ET_Project_GUI.exe
-C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\ET_Project_GUI.pdb
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\AviFile.dll
-C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\CustomUserControls.dll
-C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\CustomUserControls.pdb
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ResolveAssemblyReference.cache
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.MainForm.resources
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.Properties.Resources.resources
@@ -34,3 +28,9 @@ C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\
 C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\At_A_Glance.exe
 C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\At_A_Glance.pdb
 C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.GUI.EnterUserID.resources
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\At_A_Glance.exe
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\At_A_Glance.pdb
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\At_A_Glance.exe
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\At_A_Glance.pdb
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.CustomPanel.resources
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.GUI.EnterUserID.resources
