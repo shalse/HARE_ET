@@ -54,7 +54,7 @@ namespace ET_Project_GUI
                 g.CopyFromScreen(Point.Empty, Point.Empty, Screen.PrimaryScreen.Bounds.Size);
                 g.FillEllipse(fillBrush, currentPoint.X, currentPoint.Y, 10, 10);
                 
-                g.DrawString(elapsedTime,new Font("Arial",12),new SolidBrush(Color.White),
+                //g.DrawString(elapsedTime,new Font("Arial",12),new SolidBrush(Color.White),
                 
                 if (tempBmp != null)
                 {
