@@ -1,0 +1,14 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\ShaneGUI.cs">
+    <Files>
+      <File FileName="Assets\Scripts\LinkSyncSCR.cs" Line="160" Column="1" />
+      <File FileName="Assets\Scripts\ShaneSez.cs" Line="140" Column="1" />
+      <File FileName="Assets\Scripts\ShaneGUI.cs" Line="105" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

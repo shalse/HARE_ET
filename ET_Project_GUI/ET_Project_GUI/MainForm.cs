@@ -15,6 +15,8 @@ using System.Threading;
 using System.Net.Sockets;
 using System.Net;
 using System.Runtime.InteropServices;
+using ET_Project_GUI.DB_Wrapper;
+using ET_Project_GUI.DB_Interface;
 
 namespace ET_Project_GUI
 {
@@ -34,7 +36,7 @@ namespace ET_Project_GUI
         private bool serverListenerEnabled;
         private bool recordData;
         private ETSampleManager dataPoints;
-
+        private int dataSampleRate;
         bool caldone = false;
 
         /// <summary>
@@ -52,7 +54,7 @@ namespace ET_Project_GUI
             recordData = false;
             dataPoints = new ETSampleManager(ETDevice);
             dataPoints.startDataFeedback();
-
+            dataSampleRate = 5;
             //init ui components (auto generated)
             InitializeComponent();
 
@@ -61,6 +63,7 @@ namespace ET_Project_GUI
             targetShapeComboBox.SelectedIndex = 0;
             dataExportComboBox.SelectedIndex = 0;
             dataSampleRateComboBox.SelectedIndex = 2;
+            
 
             Thread serverListener = new Thread(new ThreadStart(startServerListener));
             serverListener.Name = "Server Listener Thread";
@@ -243,9 +246,29 @@ namespace ET_Project_GUI
         // button click handler used to start recording eye tracker data (eye position) at a selected sample rate to out built in database.
         private void DataRec_StartDataRec_Button_Click(object sender, EventArgs e)
         {
-            //TODO "TYLER" setup the db and start saving data this is a good "start" entry point
-
             recordData = true;
+            switch (dataSampleRateComboBox.SelectedIndex)
+            {
+                case 0:
+                    dataSampleRate = 1;
+                    break;
+                case 1:
+                    dataSampleRate = 2;
+                    break;
+                case 2:
+                    dataSampleRate = 5;
+                    break;
+                case 3:
+                    dataSampleRate = 7;
+                    break;
+                case 4:
+                    dataSampleRate = 10;
+                    break;
+                case 5:
+                    dataSampleRate = 20;
+                    break;
+
+            }
         }
 
         //button click handler used to stop recording data and the AVI video
@@ -350,10 +373,12 @@ namespace ET_Project_GUI
         //Thread used to send out any ET data where needed (continously called in its own thread)
         private void updateETEyePosition()
         {
+            int count = 0;
             while (updatePoints)
             {
                 int xPos = (int)((dataPoints.etPositionData.leftEye.gazeX + dataPoints.etPositionData.rightEye.gazeX) / 2);
                 int yPos = (int)((dataPoints.etPositionData.leftEye.gazeY + dataPoints.etPositionData.rightEye.gazeY) / 2);
+
 
                 if (caldone)
                 {
@@ -363,10 +388,24 @@ namespace ET_Project_GUI
                 //send to AVI recorder
                 screenVideo.CurrentEyePosition = new Point(xPos, yPos);
 
-                
+                //save at sample rate
+                if (count * 50 > (1000 / dataSampleRate))
+                {
+                    saveETDataToDB(xPos,yPos);
+                    count = 0;
+                }
+                count++;
+                Thread.Sleep(50);
 
-                Thread.Sleep(100);
+                
             }
+        }
+        private void saveETDataToDB(int xPos, int yPos)
+        {
+            DBWrapper db = new DBWrapper();
+            EyeTrackerORM testData = new EyeTrackerORM(xPos, yPos, DateTime.Now, 1);//TODO change game ids
+            db.AddEyeTrackerData(testData);
+            
         }
         //*******************************************
         //      Testing area
@@ -443,8 +482,23 @@ namespace ET_Project_GUI
         private void handleData(Dictionary<string, string> dictionary)
         {
             Console.WriteLine("Data parsed and receive succesful");
-            
-            //TODO save data
+            if (dictionary.ContainsKey("Game Type"))
+            {
+                string title = dictionary["Game Type"];
+                DBWrapper db = new DBWrapper();
+                switch (title)
+                {
+                    case "!SAY":
+                        SimonORM sayData = new SimonORM(dictionary);
+                        db.AddSimonData(sayData);
+                        break;
+                    case "!MAZ":
+                        MazeORM mazData = new MazeORM(dictionary);
+                        db.AddMazeData(mazData);
+                        break;
+                }
+            }
+
         }
         private void startRecordingData()
         {
@@ -469,5 +523,13 @@ namespace ET_Project_GUI
                 }
             }
         }
+
+        private void DatExp_ExportButton_Click(object sender, EventArgs e)
+        {
+            DBWrapper db = new DBWrapper();
+            db.ExportDataToCSV();
+
+        }
+
     }
 }

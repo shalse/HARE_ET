@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AlphaDBModelStoreContainer" CdmEntityContainer="AlphaDBEntities">
+    <EntitySetMapping Name="EyeTrackers">
+      <EntityTypeMapping TypeName="AlphaDBModel.EyeTracker">
+        <MappingFragment StoreEntitySet="EyeTracker">
+          <ScalarProperty Name="EyeTrackerId" ColumnName="EyeTrackerId" />
+          <ScalarProperty Name="Gaze_X" ColumnName="Gaze_X" />
+          <ScalarProperty Name="Gaze_Y" ColumnName="Gaze_Y" />
+          <ScalarProperty Name="Time_Stamp" ColumnName="Time_Stamp" />
+          <ScalarProperty Name="GameId" ColumnName="GameId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Mazes">
+      <EntityTypeMapping TypeName="AlphaDBModel.Maze">
+        <MappingFragment StoreEntitySet="Maze">
+          <ScalarProperty Name="MazeId" ColumnName="MazeId" />
+          <ScalarProperty Name="Collisions" ColumnName="Collisions" />
+          <ScalarProperty Name="Difficulty" ColumnName="Difficulty" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Stop" ColumnName="Stop" />
+          <ScalarProperty Name="GameId" ColumnName="GameId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Simons">
+      <EntityTypeMapping TypeName="AlphaDBModel.Simon">
+        <MappingFragment StoreEntitySet="Simon">
+          <ScalarProperty Name="SimonId" ColumnName="SimonId" />
+          <ScalarProperty Name="Increment_Level" ColumnName="Increment_Level" />
+          <ScalarProperty Name="Level_1_Fail" ColumnName="Level_1_Fail" />
+          <ScalarProperty Name="Level_1_Fail_Time" ColumnName="Level_1_Fail_Time" />
+          <ScalarProperty Name="Level_2_Fail" ColumnName="Level_2_Fail" />
+          <ScalarProperty Name="Level_2_Fail_Time" ColumnName="Level_2_Fail_Time" />
+          <ScalarProperty Name="Level_3_Fail" ColumnName="Level_3_Fail" />
+          <ScalarProperty Name="Level_3_Fail_Time" ColumnName="Level_3_Fail_Time" />
+          <ScalarProperty Name="Color" ColumnName="Color" />
+          <ScalarProperty Name="Position" ColumnName="Position" />
+          <ScalarProperty Name="Start" ColumnName="Start" />
+          <ScalarProperty Name="Stop" ColumnName="Stop" />
+          <ScalarProperty Name="GameId" ColumnName="GameId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

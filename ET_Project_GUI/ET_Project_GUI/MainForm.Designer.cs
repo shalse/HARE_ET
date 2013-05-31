@@ -44,7 +44,7 @@
             this.DataRec_StopDataRec_Button = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dataSampleRateComboBox = new System.Windows.Forms.ComboBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.DatExp_ExportButton = new System.Windows.Forms.Button();
             this.dataExportComboBox = new System.Windows.Forms.ComboBox();
             this.customPanel10 = new ET_Project_GUI.CustomPanel();
             this.customPanel9 = new ET_Project_GUI.CustomPanel();
@@ -251,31 +251,28 @@
             this.dataSampleRateComboBox.Size = new System.Drawing.Size(216, 27);
             this.dataSampleRateComboBox.TabIndex = 24;
             // 
-            // button1
+            // DatExp_ExportButton
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(666, 425);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(169, 31);
-            this.button1.TabIndex = 27;
-            this.button1.Text = "Export";
-            this.button1.UseVisualStyleBackColor = false;
+            this.DatExp_ExportButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(172)))), ((int)(((byte)(203)))));
+            this.DatExp_ExportButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.DatExp_ExportButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(22)))), ((int)(((byte)(145)))), ((int)(((byte)(160)))));
+            this.DatExp_ExportButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.DatExp_ExportButton.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DatExp_ExportButton.ForeColor = System.Drawing.Color.White;
+            this.DatExp_ExportButton.Location = new System.Drawing.Point(666, 425);
+            this.DatExp_ExportButton.Name = "DatExp_ExportButton";
+            this.DatExp_ExportButton.Size = new System.Drawing.Size(169, 31);
+            this.DatExp_ExportButton.TabIndex = 27;
+            this.DatExp_ExportButton.Text = "Export";
+            this.DatExp_ExportButton.UseVisualStyleBackColor = false;
+            this.DatExp_ExportButton.Click += new System.EventHandler(this.DatExp_ExportButton_Click);
             // 
             // dataExportComboBox
             // 
             this.dataExportComboBox.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Bold);
             this.dataExportComboBox.FormattingEnabled = true;
             this.dataExportComboBox.Items.AddRange(new object[] {
-            "TODO - CSV",
-            "TODO - SQL",
-            "TODO - ACCESS",
-            "TODO - ETC",
-            "TODO - ETC",
+            "CSV",
             ""});
             this.dataExportComboBox.Location = new System.Drawing.Point(476, 427);
             this.dataExportComboBox.Name = "dataExportComboBox";
@@ -684,7 +681,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(79)))), ((int)(((byte)(129)))), ((int)(((byte)(189)))));
             this.ClientSize = new System.Drawing.Size(876, 527);
             this.Controls.Add(this.dataExportComboBox);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.DatExp_ExportButton);
             this.Controls.Add(this.customPanel10);
             this.Controls.Add(this.customPanel9);
             this.Controls.Add(this.dataSampleRateComboBox);
@@ -711,7 +708,6 @@
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "At A Glance";
-
             ((System.ComponentModel.ISupportInitialize)(this.observationMonitorPictureBox)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -763,7 +759,7 @@
         private System.Windows.Forms.ComboBox dataSampleRateComboBox;
         private CustomPanel customPanel9;
         private CustomPanel customPanel10;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button DatExp_ExportButton;
         private System.Windows.Forms.ComboBox dataExportComboBox;
 
 

@@ -11,3 +11,4 @@ C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\Generat
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\At_A_Glance.exe
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\At_A_Glance.pdb
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\At_A_Glance.exe.config
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Debug\AlphaDB.sdf

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="AlphaDBModel.Store" Alias="Self" Provider="System.Data.SqlServerCe.3.5" ProviderManifestToken="3.5" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="AlphaDBModelStoreContainer">
+    <EntitySet Name="EyeTracker" EntityType="AlphaDBModel.Store.EyeTracker" store:Type="Tables" />
+    <EntitySet Name="Maze" EntityType="AlphaDBModel.Store.Maze" store:Type="Tables" />
+    <EntitySet Name="Simon" EntityType="AlphaDBModel.Store.Simon" store:Type="Tables" />
+  </EntityContainer>
+  <EntityType Name="EyeTracker">
+    <Key>
+      <PropertyRef Name="EyeTrackerId" />
+    </Key>
+    <Property Name="EyeTrackerId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Gaze_X" Type="int" />
+    <Property Name="Gaze_Y" Type="int" />
+    <Property Name="Time_Stamp" Type="datetime" />
+    <Property Name="GameId" Type="int" />
+  </EntityType>
+  <EntityType Name="Maze">
+    <Key>
+      <PropertyRef Name="MazeId" />
+    </Key>
+    <Property Name="MazeId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Collisions" Type="int" />
+    <Property Name="Difficulty" Type="int" />
+    <Property Name="Start" Type="datetime" />
+    <Property Name="Stop" Type="datetime" />
+    <Property Name="GameId" Type="int" />
+  </EntityType>
+  <EntityType Name="Simon">
+    <Key>
+      <PropertyRef Name="SimonId" />
+    </Key>
+    <Property Name="SimonId" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="Increment_Level" Type="int" />
+    <Property Name="Level_1_Fail" Type="int" />
+    <Property Name="Level_1_Fail_Time" Type="datetime" />
+    <Property Name="Level_2_Fail" Type="int" />
+    <Property Name="Level_2_Fail_Time" Type="datetime" />
+    <Property Name="Level_3_Fail" Type="int" />
+    <Property Name="Level_3_Fail_Time" Type="datetime" />
+    <Property Name="Color" Type="bit" />
+    <Property Name="Position" Type="bit" />
+    <Property Name="Start" Type="datetime" />
+    <Property Name="Stop" Type="datetime" />
+    <Property Name="GameId" Type="int" />
+  </EntityType>
+</Schema>
