@@ -22,3 +22,5 @@ C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\
 C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.Properties.Resources.resources
 C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\GenerateResource.read.1.tlog
 C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.exe
+C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Debug\ET_Project_GUI.pdb
