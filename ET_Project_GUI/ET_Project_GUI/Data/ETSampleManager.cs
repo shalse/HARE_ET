@@ -11,7 +11,6 @@ namespace ET_Project_GUI
         //global vars      
         public ETController.SampleStruct etPositionData;
         private ETController ETDevice;
-        private Point eyePos;
         
         //callback items
         private delegate void GetSampleCallback(ETController.SampleStruct sampleData);
@@ -23,7 +22,7 @@ namespace ET_Project_GUI
         }
         public void startDataFeedback()
         {  
-            m_SampleCallback = new GetSampleCallback(GetSampleCallbackFunction);  
+            m_SampleCallback = new GetSampleCallback(GetSampleCallbackFunction);
             ETDevice.iV_SetSampleCallback(m_SampleCallback);
         }
         //This function is called everytime new data is sent

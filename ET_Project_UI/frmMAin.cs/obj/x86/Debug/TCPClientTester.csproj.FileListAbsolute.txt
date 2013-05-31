@@ -1,9 +1,0 @@
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\bin\Debug\frmMAin.cs.exe
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\bin\Debug\frmMAin.cs.pdb
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\obj\x86\Debug\ResolveAssemblyReference.cache
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\obj\x86\Debug\TCPClientTester.Main.resources
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\obj\x86\Debug\frmMAin.cs.Properties.Resources.resources
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\obj\x86\Debug\GenerateResource.read.1.tlog
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\obj\x86\Debug\GenerateResource.write.1.tlog
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\obj\x86\Debug\frmMAin.cs.exe
-C:\shalsecode\C#\ET_Project_UI\frmMAin.cs\obj\x86\Debug\frmMAin.cs.pdb

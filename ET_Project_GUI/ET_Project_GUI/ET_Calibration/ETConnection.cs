@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace ET_Project_GUI.Network
+namespace ET_Project_GUI.Data
 {
     class ETConnection
     {
