@@ -13,11 +13,13 @@ namespace ET_Project_GUI.Data
         {
             try
             {
+                Console.WriteLine("Message recieved: " + inMessage);
                 storageTable = new Dictionary<string, string>();
                 string origin = "";
                 int messageSize = 0;
                 string message = "";
                 string tempString = "";
+
                 if (inMessage.Length > 9 && inMessage.Substring(0, 1) == "!")
                 {
                     Console.WriteLine("Message recieved: "+inMessage);

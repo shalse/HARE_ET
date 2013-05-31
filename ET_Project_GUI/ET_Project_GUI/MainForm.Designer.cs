@@ -711,7 +711,7 @@
             this.Name = "MainForm";
             this.Padding = new System.Windows.Forms.Padding(5);
             this.Text = "At A Glance";
-            this.Load += new System.EventHandler(this.MainForm_Load);
+
             ((System.ComponentModel.ISupportInitialize)(this.observationMonitorPictureBox)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

@@ -53,7 +53,7 @@ namespace ET_Project_GUI.Data
 
                             //get message on buffer
                             string fullMessage = Encoding.ASCII.GetString(recievedBytes);
-                            newMessageToSend(fullMessage);
+                            newMessageToSend(fullMessage.Trim('\0','\r'));
                         }
                         
                     }

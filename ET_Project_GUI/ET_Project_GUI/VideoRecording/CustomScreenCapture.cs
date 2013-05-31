@@ -53,8 +53,8 @@ namespace ET_Project_GUI
                 g = Graphics.FromImage(tempBmp);
                 g.CopyFromScreen(Point.Empty, Point.Empty, Screen.PrimaryScreen.Bounds.Size);
                 g.FillEllipse(fillBrush, currentPoint.X, currentPoint.Y, 10, 10);
-                
-                //g.DrawString(elapsedTime,new Font("Arial",12),new SolidBrush(Color.White),
+                g.FillRectangle(new SolidBrush(Color.Black), ScreenWidth - 100, ScreenHeight - 30, 100, 30);
+                g.DrawString(elapsedTime, new Font("Arial", 12), new SolidBrush(Color.White), new PointF(ScreenWidth-95, ScreenHeight-25));
                 
                 if (tempBmp != null)
                 {
@@ -71,7 +71,7 @@ namespace ET_Project_GUI
                     }
                 }
                 tempBmp.Dispose();
-                Thread.Sleep(100);
+                Thread.Sleep(50);
             }
             aviManager.Close();
         }

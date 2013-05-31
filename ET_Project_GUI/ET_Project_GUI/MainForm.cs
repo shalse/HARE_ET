@@ -14,11 +14,16 @@ using System.Drawing.Imaging;
 using System.Threading;
 using System.Net.Sockets;
 using System.Net;
+using System.Runtime.InteropServices;
 
 namespace ET_Project_GUI
 {
     public partial class MainForm : Form
     {
+        //DLL for escape key
+        [DllImport("user32.dll")]
+        private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
+
         //global variables
         private ETController ETDevice;
         private ETCalibrate calibrateET;
@@ -27,8 +32,10 @@ namespace ET_Project_GUI
         private ETTrackingMonitor trackingMonitor;
         private bool updatePoints;
         private bool serverListenerEnabled;
+        private bool recordData;
         private ETSampleManager dataPoints;
 
+        bool caldone = false;
 
         /// <summary>
         /// This is the main form that we will use in a windows based environment. It also sets the default selections for the dropdown/combo boxes
@@ -42,6 +49,7 @@ namespace ET_Project_GUI
             screenVideo = new CustomScreenCapture();
             updatePoints = true;
             serverListenerEnabled = true;
+            recordData = false;
             dataPoints = new ETSampleManager(ETDevice);
             dataPoints.startDataFeedback();
 
@@ -54,23 +62,28 @@ namespace ET_Project_GUI
             dataExportComboBox.SelectedIndex = 0;
             dataSampleRateComboBox.SelectedIndex = 2;
 
-            //start the server to listen for incoming connections
-            //TODO Enable server listener
-            //Thread serverListener = new Thread(new ThreadStart(startServerListener));
-            //serverListener.Name = "Server Listener Thread";
-            //serverListener.Start();
-
-            Thread serverListener = new Thread(new ThreadStart(startServerListener2));
+            Thread serverListener = new Thread(new ThreadStart(startServerListener));
             serverListener.Name = "Server Listener Thread";
             serverListener.Start();
 
+            //setup Escape key to exit ET mouse control 
+            RegisterHotKey(this.Handle, this.GetHashCode(), 0, (int) Keys.Escape);
         }
+        //used to handle escape key
+        protected override void WndProc(ref Message m)
+        {
+            if (m.Msg == 0x0312)
+            {
+                caldone = false;
+                Console.WriteLine("Escape Key Detected");
+            }
+            base.WndProc(ref m);
+        }
+
         private void onProgramClose()
         {
             //stop recoding the avi video on close (prevents corruption of avi file)
             this.screenVideo.stopRecording();
-
-
 
             //kill the update point thread
             updatePoints = false;
@@ -87,23 +100,16 @@ namespace ET_Project_GUI
         }
 
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-
-        }
-        //*******************************************
-        //      CALIBRATION
-        //*******************************************
+//*******************************************
+//      CALIBRATION
+//*******************************************
         //button click handler used to load and connect the application to the eye tracking server
         private void Cal_Connect_Button_Click(object sender, EventArgs e)
         {
-
-            // TODO "Future release" launch SMI Eye tracker server automatically
-
-
+            // "Future release" launch SMI Eye tracker server automatically
+            
             ETConnection connectToEyeTracker = new ETConnection();
             int res = connectToEyeTracker.connect(ETDevice);
-
 
             if (res == 104)//res 104 is used if no server has been started
             {
@@ -213,9 +219,9 @@ namespace ET_Project_GUI
             }
         }
 
-        //*******************************************
-        //      DATA RECORDING SECTION
-        //*******************************************
+//*******************************************
+//      DATA RECORDING SECTION
+//*******************************************
 
         // button click handler used save the accuracy image to a png file for later reference
         private void DataRec_SaveCalAcc_Button_Click(object sender, EventArgs e)
@@ -238,22 +244,8 @@ namespace ET_Project_GUI
         private void DataRec_StartDataRec_Button_Click(object sender, EventArgs e)
         {
             //TODO "TYLER" setup the db and start saving data this is a good "start" entry point
-            //AVI video recording thread
-            try
-            {
-                Thread aviThread = new Thread(new ThreadStart(screenVideo.CaptureVideo));
-                aviThread.Name = "AVI Recording Thread";
-                aviThread.Start();
 
-                Thread vidTimer = new Thread(new ThreadStart(screenVideo.startVideoTimer));
-                vidTimer.Name = "Avi timer Thread";
-                vidTimer.Start();
-
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Could not start video recording thread: " + ex);
-            }
+            recordData = true;
         }
 
         //button click handler used to stop recording data and the AVI video
@@ -262,9 +254,9 @@ namespace ET_Project_GUI
             screenVideo.stopRecording();
         }
 
-        //*******************************************
-        //      OBSERVATION SECTION
-        //*******************************************
+//*******************************************
+//      OBSERVATION SECTION
+//*******************************************
         // button click handler used to load the eye position monitor (show your eyes are in correct position). It is only enabled after your have succesfully connected to the ET.
         private void Obs_TrackingMonitor_Button_Click(object sender, EventArgs e)
         {
@@ -289,21 +281,9 @@ namespace ET_Project_GUI
 
         }
 
-        // button click handler used to load the remote view. Note that this option will become disabled if you are connected to the eye tracker. The purpose
-        private void Obs_RemoteView_Button_Click(object sender, EventArgs e)
-        {
-            //disable all calibration buttons as this will be the "experimenters computer"
-            Cal_Connect_Button.Enabled = false;
-            Cal_Calibrate_Button.Enabled = false;
-            Cal_Validate_Button.Enabled = false;
-            Cal_CheckAccuracy_Button.Enabled = false;
-
-            // TODO "SHANE" add logic for loading remote view
-        }
-
-        //*******************************************
-        //      APPLICATIONS SECTION
-        //******************************************
+//*******************************************
+//      APPLICATIONS SECTION
+//******************************************
         //button click handler used to load the Simon Says game
         private void App_SimonSays_Button_Click(object sender, EventArgs e)
         {
@@ -314,18 +294,6 @@ namespace ET_Project_GUI
         private void App_Maze_Button_Click(object sender, EventArgs e)
         {
             // TODO "SHANE/MATT" add logic for loading maze app
-        }
-
-        //button click handler used to load the Keyboard control app
-        private void App_KeyboardControl_Button_Click(object sender, EventArgs e)
-        {
-            // TODO "PETER" add logic for loading keyboard control app
-        }
-
-        //button click handler used to load the Mouse control app
-        private void App_MouseControl_Button_Click(object sender, EventArgs e)
-        {
-            // TODO "PETER/JOSH" add logic for loading mouse control app
         }
 
         //button click handler used to load/launch any .exe file
@@ -342,6 +310,9 @@ namespace ET_Project_GUI
                 Process launcher = new Process();
                 launcher.StartInfo.FileName = openFileDialog.FileName.ToString();
                 launcher.Start();
+                //start the video and ET data recorder
+                recordData = true;
+                startRecordingData();
             }
             else if (res == DialogResult.Cancel)
             {
@@ -384,10 +355,15 @@ namespace ET_Project_GUI
                 int xPos = (int)((dataPoints.etPositionData.leftEye.gazeX + dataPoints.etPositionData.rightEye.gazeX) / 2);
                 int yPos = (int)((dataPoints.etPositionData.leftEye.gazeY + dataPoints.etPositionData.rightEye.gazeY) / 2);
 
+                if (caldone)
+                {
+                    Cursor.Position = new Point(xPos, yPos);
+                }
+
                 //send to AVI recorder
                 screenVideo.CurrentEyePosition = new Point(xPos, yPos);
 
-                //TODO "SHANE/MATT" Send ET data to games
+                
 
                 Thread.Sleep(100);
             }
@@ -396,7 +372,7 @@ namespace ET_Project_GUI
         //      Testing area
         //*******************************************
         private List<ClientHandler> clientList;
-        private void startServerListener2()
+        private void startServerListener()
         {
             IPHostEntry host;
             string localIP = "";
@@ -422,7 +398,6 @@ namespace ET_Project_GUI
             {
                 if(!serverSocket.Pending())
                 {
-                    Console.WriteLine("x:" + MousePosition.X + "Y:" + MousePosition.Y);
                     Thread.Sleep(500);
                     continue;
                 }
@@ -449,13 +424,18 @@ namespace ET_Project_GUI
         private void newMessageRecieved(string inMsg)
         {
             DataParser dataParse = new DataParser();
-
-            if (dataParse.parseDataString(inMsg.Trim('\0')) == "Success")
+            if(inMsg == "START")
+            {
+                caldone = true;
+                startRecordingData();            
+            }
+            else if (dataParse.parseDataString(inMsg) == "Success")
             {
                 handleData(dataParse.storageTable);
             }
-            else //TODO handle start game
+            else 
             {
+                //bad data
             }
 
         }
@@ -466,6 +446,28 @@ namespace ET_Project_GUI
             
             //TODO save data
         }
+        private void startRecordingData()
+        {
+            if (recordData)
+            {
+                recordData = false;
+                try
+                {
+                    Console.WriteLine("Recording data");
+                    Thread aviThread = new Thread(new ThreadStart(screenVideo.CaptureVideo));
+                    aviThread.Name = "AVI Recording Thread";
+                    aviThread.Start();
 
+                    Thread vidTimer = new Thread(new ThreadStart(screenVideo.startVideoTimer));
+                    vidTimer.Name = "Avi timer Thread";
+                    vidTimer.Start();
+
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Could not start video recording thread: " + ex);
+                }
+            }
+        }
     }
 }
