@@ -21,7 +21,7 @@ public class LinkSyncSCR : MonoBehaviour
     //Database info
     int wallCollisions = 0;
     string timeStart = "", timeFinish = "";
-    float difficulty = 0f;
+    double difficulty = 0;
     string dataPacket;
 
     void Start()

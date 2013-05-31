@@ -12,3 +12,17 @@ C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\Gener
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\GenerateResource.write.1.tlog
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\At_A_Glance.exe
 C:\shalsecode\Github\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\At_A_Glance.pdb
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Release\At_A_Glance.exe.config
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\At_A_Glance.exe
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\At_A_Glance.pdb
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Release\AlphaDB.sdf
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Release\At_A_Glance.exe
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Release\At_A_Glance.pdb
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\bin\Release\AviFile.dll
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\ResolveAssemblyReference.cache
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\ET_Project_GUI.CustomPanel.resources
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\ET_Project_GUI.GUI.EnterUserID.resources
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\ET_Project_GUI.MainForm.resources
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\ET_Project_GUI.Properties.Resources.resources
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\GenerateResource.read.1.tlog
+C:\shalsecode\ET_Project_Dev_Code\HARE_ET\ET_Project_GUI\ET_Project_GUI\obj\x86\Release\GenerateResource.write.1.tlog

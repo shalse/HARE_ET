@@ -113,11 +113,6 @@ namespace ET_Project_GUI
         //button click handler used to load and connect the application to the eye tracking server
         private void Cal_Connect_Button_Click(object sender, EventArgs e)
         {
-            //todo remove
-            mouseHijack = true; 
-            Thread etPoisitionUpdater = new Thread(new ThreadStart(updateETEyePosition));
-            etPoisitionUpdater.Name = "Update ET position data Thread";
-            etPoisitionUpdater.Start();
 
 
             // "Future release" launch SMI Eye tracker server automatically
@@ -158,8 +153,8 @@ namespace ET_Project_GUI
                 Cal_Calibrate_Button.Enabled = true;
 
                 //start the ET positition data updater
-                //todo enable
-//Thread etPoisitionUpdater = new Thread(new ThreadStart(updateETEyePosition));
+              
+                Thread etPoisitionUpdater = new Thread(new ThreadStart(updateETEyePosition));
                 etPoisitionUpdater.Name = "Update ET position data Thread";
                 etPoisitionUpdater.Start();
 
@@ -432,19 +427,17 @@ namespace ET_Project_GUI
             int mouseY = 0;
             while (updatePoints)
             {
-                //int xPos = (int)((dataPoints.etPositionData.leftEye.gazeX + dataPoints.etPositionData.rightEye.gazeX) / 2);
-                //int yPos = (int)((dataPoints.etPositionData.leftEye.gazeY + dataPoints.etPositionData.rightEye.gazeY) / 2);
+                int xPos = (int)((dataPoints.etPositionData.leftEye.gazeX + dataPoints.etPositionData.rightEye.gazeX) / 2);
+                int yPos = (int)((dataPoints.etPositionData.leftEye.gazeY + dataPoints.etPositionData.rightEye.gazeY) / 2);
                 const int MOUSEEVENTF_LEFTDOWN = 0x02;
                 const int MOUSEEVENTF_LEFTUP = 0x04;
-                int xPos = Cursor.Position.X;
-                int yPos = Cursor.Position.Y;
 
 
                 if (mouseHijack)
                 {
                     //hijack the mouse
-                    //Cursor.Position = new Point(xPos, yPos);
-                    Console.WriteLine("Stare: " + stare);
+                    Cursor.Position = new Point(xPos, yPos);
+
                     //in range
                     if ((xPos <= mouseX + 15 && xPos >= mouseX - 15) && (yPos <= mouseY + 15 || yPos >= mouseY - 15))
                     {
