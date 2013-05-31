@@ -26,6 +26,10 @@ namespace ET_Project_GUI
         [DllImport("user32.dll")]
         private static extern bool RegisterHotKey(IntPtr hWnd, int id, int fsModifiers, int vk);
 
+        //DLL for mouseclick
+        [DllImport("user32.dll", CharSet = CharSet.Auto, CallingConvention = CallingConvention.StdCall)]
+        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint cButtons, uint dwExtraInfo);
+
         //global variables
         private ETController ETDevice;
         private ETCalibrate calibrateET;
@@ -37,7 +41,7 @@ namespace ET_Project_GUI
         private bool recordData;
         private ETSampleManager dataPoints;
         private int dataSampleRate;
-        bool caldone = false;
+        bool mouseHijack = false;
 
         /// <summary>
         /// This is the main form that we will use in a windows based environment. It also sets the default selections for the dropdown/combo boxes
@@ -77,7 +81,7 @@ namespace ET_Project_GUI
         {
             if (m.Msg == 0x0312)
             {
-                caldone = false;
+                mouseHijack = false;
                 Console.WriteLine("Escape Key Detected");
             }
             base.WndProc(ref m);
@@ -109,6 +113,13 @@ namespace ET_Project_GUI
         //button click handler used to load and connect the application to the eye tracking server
         private void Cal_Connect_Button_Click(object sender, EventArgs e)
         {
+            //todo remove
+            mouseHijack = true; 
+            Thread etPoisitionUpdater = new Thread(new ThreadStart(updateETEyePosition));
+            etPoisitionUpdater.Name = "Update ET position data Thread";
+            etPoisitionUpdater.Start();
+
+
             // "Future release" launch SMI Eye tracker server automatically
             
             ETConnection connectToEyeTracker = new ETConnection();
@@ -147,7 +158,8 @@ namespace ET_Project_GUI
                 Cal_Calibrate_Button.Enabled = true;
 
                 //start the ET positition data updater
-                Thread etPoisitionUpdater = new Thread(new ThreadStart(updateETEyePosition));
+                //todo enable
+//Thread etPoisitionUpdater = new Thread(new ThreadStart(updateETEyePosition));
                 etPoisitionUpdater.Name = "Update ET position data Thread";
                 etPoisitionUpdater.Start();
 
@@ -310,13 +322,53 @@ namespace ET_Project_GUI
         //button click handler used to load the Simon Says game
         private void App_SimonSays_Button_Click(object sender, EventArgs e)
         {
-            // TODO "SHANE/MATT" add logic for loading simon says app
+            try
+            {
+                string path = @"..\..\..\..\ET_Apps\cicero_v1.exe";
+                if (File.Exists(path))
+                {
+                    Process launcher = new Process();
+                    launcher.StartInfo.FileName = path;
+                    launcher.Start();
+
+                }
+                else
+                {
+                    Console.WriteLine("exe not found @ " + Directory.GetCurrentDirectory() + path);
+                    throw new Exception("File not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Couldn't find exe file");
+                App_OtherApps_Button_Click(sender, e);
+            }
         }
 
         // This  is the button click handler used to load the Maze game
         private void App_Maze_Button_Click(object sender, EventArgs e)
         {
-            // TODO "SHANE/MATT" add logic for loading maze app
+            try
+            {
+                string path = @"..\..\..\..\ET_Apps\Maze_v1.exe";
+                if (File.Exists(path))
+                {
+                    Process launcher = new Process();
+                    launcher.StartInfo.FileName = path;
+                    launcher.Start();
+
+                }
+                else
+                {
+                    Console.WriteLine("exe not found @ " + Directory.GetCurrentDirectory() + path);
+                    throw new Exception("File not found.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Couldn't find exe file");
+                App_OtherApps_Button_Click(sender, e);
+            }
         }
 
         //button click handler used to load/launch any .exe file
@@ -330,6 +382,7 @@ namespace ET_Project_GUI
 
             if (File.Exists(openFileDialog.FileName) && res == DialogResult.OK)
             {
+                Console.WriteLine("Launch: " + openFileDialog.FileName.ToString());
                 Process launcher = new Process();
                 launcher.StartInfo.FileName = openFileDialog.FileName.ToString();
                 launcher.Start();
@@ -374,15 +427,48 @@ namespace ET_Project_GUI
         private void updateETEyePosition()
         {
             int count = 0;
+            int stare = 0;
+            int mouseX = 0;
+            int mouseY = 0;
             while (updatePoints)
             {
-                int xPos = (int)((dataPoints.etPositionData.leftEye.gazeX + dataPoints.etPositionData.rightEye.gazeX) / 2);
-                int yPos = (int)((dataPoints.etPositionData.leftEye.gazeY + dataPoints.etPositionData.rightEye.gazeY) / 2);
+                //int xPos = (int)((dataPoints.etPositionData.leftEye.gazeX + dataPoints.etPositionData.rightEye.gazeX) / 2);
+                //int yPos = (int)((dataPoints.etPositionData.leftEye.gazeY + dataPoints.etPositionData.rightEye.gazeY) / 2);
+                const int MOUSEEVENTF_LEFTDOWN = 0x02;
+                const int MOUSEEVENTF_LEFTUP = 0x04;
+                int xPos = Cursor.Position.X;
+                int yPos = Cursor.Position.Y;
 
 
-                if (caldone)
+                if (mouseHijack)
                 {
-                    Cursor.Position = new Point(xPos, yPos);
+                    //hijack the mouse
+                    //Cursor.Position = new Point(xPos, yPos);
+                    Console.WriteLine("Stare: " + stare);
+                    //in range
+                    if ((xPos <= mouseX + 15 && xPos >= mouseX - 15) && (yPos <= mouseY + 15 || yPos >= mouseY - 15))
+                    {
+                        stare++;
+                        if (stare == 1)
+                        {
+                            mouseX = xPos;
+                            mouseY = yPos;
+                        }
+                    }
+                    //out of range
+                    else
+                    {
+                        stare = 0;
+                        mouseX = xPos;
+                        mouseY = yPos;
+                    }
+                    if (stare == 40)
+                    {
+                        
+                        mouse_event(MOUSEEVENTF_LEFTDOWN | MOUSEEVENTF_LEFTUP, (uint)mouseX, (uint)mouseY, 0, 0);
+                        stare = 0;
+                    }
+
                 }
 
                 //send to AVI recorder
@@ -403,7 +489,7 @@ namespace ET_Project_GUI
         private void saveETDataToDB(int xPos, int yPos)
         {
             DBWrapper db = new DBWrapper();
-            EyeTrackerORM testData = new EyeTrackerORM(xPos, yPos, DateTime.Now, 1);//TODO change game ids
+            EyeTrackerORM testData = new EyeTrackerORM(xPos, yPos, DateTime.Now, 1);//change game ids
             db.AddEyeTrackerData(testData);
             
         }
@@ -465,7 +551,7 @@ namespace ET_Project_GUI
             DataParser dataParse = new DataParser();
             if(inMsg == "START")
             {
-                caldone = true;
+                mouseHijack = true;
                 startRecordingData();            
             }
             else if (dataParse.parseDataString(inMsg) == "Success")
