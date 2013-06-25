@@ -1,0 +1,12 @@
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\Assembly-CSharp.dll
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\Assembly-CSharp.pdb
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\Assembly-UnityScript-firstpass.dll
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\UnityEditor.dll
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\UnityEngine.dll
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\Mono.Cecil.dll
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\nunit.framework.dll
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\ICSharpCode.NRefactory.dll
+C:\Temp\ENGR397Bunitymaze\Temp\bin\Debug\Assembly-CSharp-firstpass.pdb
+C:\Temp\ENGR397Bunitymaze\obj\Debug\ResolveAssemblyReference.cache
+C:\Temp\ENGR397Bunitymaze\obj\Debug\Assembly-CSharp.dll
+C:\Temp\ENGR397Bunitymaze\obj\Debug\Assembly-CSharp.pdb
